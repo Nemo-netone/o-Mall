@@ -1,0 +1,9 @@
+{
+  "name": "@o-mall/api-spec",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "codegen": "echo 'API codegen will be configured later'"
+  }
+}

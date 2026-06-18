@@ -1,0 +1,22 @@
+{
+  "name": "@o-mall/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "push": "drizzle-kit push",
+    "studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "drizzle-orm": "catalog:",
+    "drizzle-zod": "catalog:",
+    "postgres": "^3.4.5",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.29.1"
+  }
+}
