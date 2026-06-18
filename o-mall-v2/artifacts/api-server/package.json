@@ -1,0 +1,21 @@
+{
+  "name": "@o-mall/api-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@o-mall/db": "workspace:*",
+    "express": "catalog:",
+    "tsx": "catalog:"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "catalog:"
+  }
+}
