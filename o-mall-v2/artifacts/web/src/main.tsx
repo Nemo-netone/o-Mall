@@ -4,14 +4,17 @@ import { Router } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
 import App from "./App";
 import { CartProvider } from "./state/cart";
+import { CatalogProvider } from "./state/catalog";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Router hook={useHashLocation}>
-      <CartProvider>
-        <App />
-      </CartProvider>
+      <CatalogProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </CatalogProvider>
     </Router>
   </React.StrictMode>,
 );

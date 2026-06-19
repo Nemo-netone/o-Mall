@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useSearch } from "wouter";
-import { CATEGORIES, PRODUCTS, getCategory } from "../data/catalog";
+import { useCatalog } from "../state/catalog";
 import { ProductCard } from "../components/ProductCard";
 
 export function ProductList() {
+  const { products, categories } = useCatalog();
   const search = useSearch();
   const urlCat = new URLSearchParams(search).get("cat") ?? "all";
   const [cat, setCat] = useState<string>(urlCat);
@@ -13,8 +14,8 @@ export function ProductList() {
     setCat(urlCat);
   }, [urlCat]);
 
-  const items = cat === "all" ? PRODUCTS : PRODUCTS.filter((p) => p.categoryId === cat);
-  const activeCat = cat === "all" ? null : getCategory(cat);
+  const items = cat === "all" ? products : products.filter((p) => p.categoryId === cat);
+  const activeCat = cat === "all" ? null : categories.find((c) => c.id === cat);
 
   return (
     <div className="page">
@@ -28,7 +29,7 @@ export function ProductList() {
         <button className={cat === "all" ? "chip-btn active" : "chip-btn"} onClick={() => setCat("all")}>
           全部
         </button>
-        {CATEGORIES.map((c) => (
+        {categories.map((c) => (
           <button
             key={c.id}
             className={cat === c.id ? "chip-btn active" : "chip-btn"}

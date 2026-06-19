@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams, useLocation } from "wouter";
-import { getProduct, getCategory, formatPrice, ratingSummary, PRODUCTS } from "../data/catalog";
+import { formatPrice, ratingSummary } from "../data/catalog";
+import { useCatalog, useProduct } from "../state/catalog";
 import { useCart } from "../state/cart";
 import { Stars } from "../components/Stars";
 import { ProductCard } from "../components/ProductCard";
@@ -10,7 +11,8 @@ type Tab = "usage" | "formula" | "reviews";
 
 export function ProductDetail() {
   const { id } = useParams();
-  const product = id ? getProduct(id) : undefined;
+  const product = useProduct(id);
+  const { products, categories } = useCatalog();
   const { add } = useCart();
   const [, navigate] = useLocation();
   const [tab, setTab] = useState<Tab>("usage");
@@ -27,10 +29,10 @@ export function ProductDetail() {
     );
   }
 
-  const category = getCategory(product.categoryId);
+  const category = categories.find((c) => c.id === product.categoryId);
   const isInquiry = product.price <= 0;
   const { avg, count, bars } = ratingSummary(product);
-  const related = PRODUCTS.filter(
+  const related = products.filter(
     (p) => p.categoryId === product.categoryId && p.id !== product.id,
   ).slice(0, 4);
 
