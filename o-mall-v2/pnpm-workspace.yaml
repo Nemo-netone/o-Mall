@@ -18,15 +18,13 @@ catalog:
 
 autoInstallPeers: false
 
+# esbuild / better-sqlite3 需要在安装时运行构建脚本（链接对应平台二进制）。
+# 注意：CloudBase 静态托管是“本地构建好再上传 dist”，构建发生在本机（Windows），
+# 因此必须让 pnpm 按当前平台正常安装 esbuild 平台二进制，不要用 overrides 排除平台，
+# 否则本地 `vite build` 会因缺少 esbuild 二进制而失败。
 onlyBuiltDependencies:
   - esbuild
   - better-sqlite3
 
-overrides:
-  # Tencent Cloud 使用 linux-x64，排除其他平台以减小包体积
-  "esbuild>@esbuild/darwin-arm64": "-"
-  "esbuild>@esbuild/darwin-x64": "-"
-  "esbuild>@esbuild/linux-arm": "-"
-  "esbuild>@esbuild/linux-arm64": "-"
-  "esbuild>@esbuild/win32-x64": "-"
-  "esbuild>@esbuild/win32-ia32": "-"
+allowBuilds:
+  esbuild: set this to true or false

@@ -1,189 +1,212 @@
 # o-mall-v2
 
-O-Mall 电商平台 v2 版本 - 基于现代化技术栈的 Monorepo 架构
+`o-mall-v2` 是 O-Mall 商城的主重写项目。旁边的 `../shopTwo-main` 只是参考资料；当前项目要形成自己的包名、前端文件、静态资源、接口合同、数据库结构和 CloudBase 发布路径。
 
-## 📁 项目结构
+## 当前状态
 
-```
+已经有：
+
+- pnpm workspace monorepo
+- `artifacts/web` Vite + React 前端（**完整商城**：首页/商品列表/分类/详情(Tab)/我的/购物车/结算 + 企业·技术·公益·护肝知识·健康评测·产品功能内容页，hash 路由）
+- `artifacts/api-server` Express API 服务
+- `GET /health` 健康检查接口
+- `lib/db` Drizzle/PostgreSQL 数据库包
+- `lib/api-spec/openapi.json` OpenAPI 合同
+- 根目录 `../.trellis/` Trellis 工作流和规范文档
+
+商城静态 MVP **已发布到 CloudBase 体验版**：
+
+- 线上地址：https://meta-d5gh4ds014005aff1-1369167244.tcloudbaseapp.com
+- 风格对标 `../shopTwo-main`：深绿 + 暖金 + 草本米底卡片；移动优先并适配桌面
+- 免费测试域名首访有"风险提醒"安全拦截页，点"确定访问"进入；去掉需绑定自有域名
+
+还没有作为线上能力完成：
+
+- 商品数据库表
+- 商品列表/详情 API
+- 购物车 API
+- 订单 API
+- 真实运营后台或种子数据流程
+- 真实支付（结算为前端模拟）
+
+## 项目结构
+
+```text
 o-mall-v2/
-├── lib/                      # 共享库
-│   ├── db/                   # 数据库层 (Drizzle ORM + PostgreSQL)
-│   └── api-spec/             # OpenAPI 规范
-├── artifacts/                # 应用程序
-│   └── api-server/           # Express API 服务器
-└── package.json              # 根 workspace 配置
+├── artifacts/
+│   ├── api-server/            # Express API 服务，后续接真实接口
+│   └── web/                   # Vite React 前端，当前 CloudBase 静态站主线
+├── lib/
+│   ├── api-spec/              # OpenAPI 合同
+│   └── db/                    # Drizzle/PostgreSQL 数据层
+├── .env.example
+├── package.json
+├── pnpm-workspace.yaml
+└── tsconfig.base.json
 ```
 
-## 🛠️ 技术栈
+## 技术栈
 
-### 核心技术
-- **Monorepo**: pnpm workspaces
-- **TypeScript**: 5.7+
-- **Node.js**: 推荐 20+
+- Monorepo：pnpm workspaces
+- 语言：TypeScript
+- 前端：React 18 + Vite 6 + Wouter
+- 后端：Express 5
+- 数据库：PostgreSQL + Drizzle ORM
+- API 合同：OpenAPI 3.1
+- 当前发布目标：CloudBase 静态托管
 
-### 后端
-- **框架**: Express 5.0
-- **数据库**: PostgreSQL
-- **ORM**: Drizzle ORM
-- **验证**: Zod
+## 前端命令
 
-### 部署目标
-- **腾讯云服务器** (Linux x64)
-- 已优化依赖包体积（排除非 Linux 平台的二进制）
+从当前目录执行：
 
-## 🚀 快速开始
-
-### 安装依赖
-```bash
-pnpm install
+```powershell
+pnpm --filter @o-mall/web run dev
+pnpm --filter @o-mall/web run typecheck
+pnpm --filter @o-mall/web run build
+pnpm --filter @o-mall/web run preview
 ```
 
-### 数据库设置
-1. 确保 PostgreSQL 已安装并运行
-2. 创建数据库：
-```bash
-createdb omall
+构建产物：
+
+```text
+artifacts/web/dist
 ```
 
-3. 设置环境变量：
-```bash
-export DATABASE_URL="postgresql://localhost:5432/omall"
+## CloudBase 静态托管
+
+发布前先构建：
+
+```powershell
+pnpm --filter @o-mall/web run typecheck
+pnpm --filter @o-mall/web run build
 ```
 
-4. 推送数据库 schema：
-```bash
-pnpm --filter @o-mall/db run push
+发布到 CloudBase：
+
+```powershell
+cloudbase hosting deploy artifacts/web/dist
 ```
 
-### 开发服务器
-```bash
-pnpm dev
+如果 CLI 没有默认环境，显式指定：
+
+```powershell
+cloudbase hosting deploy artifacts/web/dist -e <env-id>
 ```
 
-服务器将在 `http://localhost:3000` 启动
+路由：CloudBase 静态托管下使用 **hash 路由**（`main.tsx` 已用 `useHashLocation`），例如：
 
-### 类型检查
-```bash
-pnpm typecheck
+```text
+/#/
+/#/products
+/#/product/p2
+/#/category
+/#/company
+/#/tech
+/#/cart
+/#/checkout
 ```
 
-### 构建
-```bash
-pnpm build
+这样刷新详情页/内容页时不依赖服务端 rewrite，已验证刷新不 404。
+
+> 实际发布使用的环境：`meta-d5gh4ds014005aff1`（CloudBase 体验版）。命令：
+> `cloudbase hosting deploy artifacts/web/dist -e meta-d5gh4ds014005aff1`
+
+## 当前运行链路
+
+静态 MVP 阶段：
+
+```text
+浏览器
+  -> CloudBase 静态托管
+  -> Vite 构建产物 dist
+  -> React 静态数据和前端状态
 ```
 
-## 📦 Workspace 包
+后续接 API 后的开发链路：
 
-### @o-mall/db
-数据库层，包含：
-- Drizzle ORM 配置
-- 数据库 schema 定义
-- Zod 验证 schema
-
-**主要命令**：
-```bash
-pnpm --filter @o-mall/db run push   # 推送 schema 到数据库
-pnpm --filter @o-mall/db run studio # 打开 Drizzle Studio
+```text
+浏览器
+  -> artifacts/web Vite 开发服务
+  -> 前端请求后端时走 /api 代理
+  -> artifacts/api-server Express 路由
+  -> JSON 响应
 ```
 
-### @o-mall/api-spec
-API 规范定义：
-- OpenAPI 3.1 规范
-- 后续可用于代码生成（Orval）
+## 后端命令
 
-### @o-mall/api-server
-Express API 服务器：
-- RESTful API 端点
-- 健康检查端点：`GET /health`
-
-**主要命令**：
-```bash
-pnpm --filter @o-mall/api-server run dev       # 开发模式
-pnpm --filter @o-mall/api-server run build     # 构建
-pnpm --filter @o-mall/api-server run start     # 生产模式
+```powershell
+pnpm --filter @o-mall/api-server run dev
+pnpm --filter @o-mall/api-server run build
 ```
 
-## 🔒 安全特性
+当前健康检查：
 
-### 供应链防护
-- **最小发布时间要求**: 24 小时
-- 所有 npm 包必须发布至少 1 天后才能安装
-- 防护 90% 的供应链攻击
-
-### 包体积优化
-- 仅保留 Linux x64 平台二进制
-- 排除所有其他平台的 esbuild/rollup 二进制
-- 减小 `node_modules` 体积约 60%
-
-## 📝 开发规范
-
-### 添加新的数据表
-1. 在 `lib/db/src/schema/` 创建新文件（例如 `users.ts`）
-2. 定义 Drizzle table 和 Zod schema
-3. 在 `lib/db/src/schema/index.ts` 导出
-4. 运行 `pnpm --filter @o-mall/db run push`
-
-### 添加新的 API 端点
-1. 在 `lib/api-spec/openapi.json` 定义 API
-2. 在 `artifacts/api-server/src/` 实现端点
-3. 使用 `@o-mall/db` 进行数据库操作
-
-## 🚀 部署到腾讯云
-
-### 环境准备
-1. 确保服务器已安装：
-   - Node.js 20+
-   - PostgreSQL 14+
-   - pnpm
-
-2. 设置环境变量：
-```bash
-export DATABASE_URL="postgresql://user:password@localhost:5432/omall"
-export PORT=3000
-export NODE_ENV=production
+```http
+GET /health
 ```
 
-### 部署步骤
-```bash
-# 1. 克隆代码
-git clone <repo-url>
-cd o-Mall/o-mall-v2
+响应：
 
-# 2. 安装依赖
-pnpm install --frozen-lockfile
-
-# 3. 构建
-pnpm build
-
-# 4. 推送数据库 schema
-pnpm --filter @o-mall/db run push
-
-# 5. 启动服务
-pnpm --filter @o-mall/api-server run start
+```json
+{
+  "status": "ok",
+  "timestamp": "2026-06-18T00:00:00.000Z"
+}
 ```
 
-### 使用 PM2 守护进程
-```bash
-pm2 start artifacts/api-server/dist/index.js --name "o-mall-api"
-pm2 save
-pm2 startup
+## 环境变量
+
+看 `.env.example`。
+
+```text
+DATABASE_URL=postgresql://localhost:5432/omall
+PORT=3000
+NODE_ENV=development
 ```
 
-## 📚 后续扩展
+不要把真实生产密钥或数据库密码提交到仓库。
 
-可以添加的包：
-- `lib/api-client` - TypeScript API 客户端（前端使用）
-- `artifacts/admin` - 管理后台（Vite + React）
-- `artifacts/mobile` - 移动应用（Expo）
-- `lib/shared` - 共享工具函数
+## Trellis
 
-## 🤝 贡献指南
+Trellis 用来保存项目规范和任务记忆。
 
-1. 创建功能分支：`git checkout -b feat/your-feature`
-2. 提交变更：`git commit -m "feat: add something"`
-3. 推送分支：`git push origin feat/your-feature`
-4. 创建 Pull Request
+大改动前先读：
 
-## 📄 License
+```text
+../.trellis/workflow.md
+../.trellis/spec/guides/index.md
+../.trellis/spec/workspace/index.md
+```
 
-MIT
+当前任务说明与执行计划：
+
+```text
+../.trellis/tasks/pr1-omall-rewrite/prd.md     # 要做什么 + 验收标准
+../.trellis/tasks/pr1-omall-rewrite/plan.md    # 里程碑 + 进度看板 + PR 拆分
+```
+
+规范分区：
+
+- `monorepo.md`：包边界和依赖规则
+- `api-contracts.md`：路由、OpenAPI、响应合同
+- `database.md`：Drizzle/PostgreSQL 规则
+- `frontend.md`：Vite React 前端规则
+- `deployment.md`：CloudBase 静态托管部署规则
+
+## 参考项目使用规则
+
+`../shopTwo-main` 可以用来借鉴，但不要复制它的部署假设或包名。
+
+可以参考：
+
+- 首页和商品详情页布局
+- 产品功能内容页结构
+- UI 风格
+- 移动商城业务行为
+
+避免：
+
+- 修改 `shopTwo-main`
+- 从 `shopTwo-main` 直接 import
+- 使用 `@workspace/*` 包名
+- 假设 Replit/Cloudflare 部署方式适用于当前重写项目
