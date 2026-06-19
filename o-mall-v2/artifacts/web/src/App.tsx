@@ -1,5 +1,6 @@
 import { Switch, Route, Link } from "wouter";
 import { Layout } from "./components/Layout";
+import { ScrollToTop } from "./components/ScrollToTop";
 import { Home } from "./pages/Home";
 import { ProductList } from "./pages/ProductList";
 import { ProductDetail } from "./pages/ProductDetail";
@@ -28,6 +29,7 @@ function NotFound() {
 function App() {
   return (
     <Layout>
+      <ScrollToTop />
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/products" component={ProductList} />

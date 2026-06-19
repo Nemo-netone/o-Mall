@@ -771,7 +771,23 @@ button:focus-visible {
 
 /* ---------- 商品详情（主题色驱动，用 --theme） ---------- */
 .detail {
-  padding-bottom: 4.5rem;
+  padding-bottom: 5rem;
+}
+
+.detail-back {
+  display: inline-block;
+  margin-bottom: 0.7rem;
+  font-size: 0.84rem;
+  color: var(--c-muted);
+}
+.detail-back:hover {
+  color: var(--c-primary);
+}
+
+.list-count {
+  font-size: 0.78rem;
+  color: var(--c-muted);
+  margin-bottom: 0.7rem;
 }
 
 .detail-hero {
@@ -2265,21 +2281,16 @@ button:focus-visible {
     font-size: 3.2rem;
   }
   .detail {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 1.4rem;
-    align-items: start;
-  }
-  .detail-hero {
-    grid-column: 1 / -1;
+    /* 桌面下保持单列居中：详情 Hero 内部已是图文并排，外层不再二分 */
+    max-width: 760px;
+    margin: 0 auto;
   }
   .detail-bar {
     /* 桌面下不吸底，跟随内容 */
     position: static;
     transform: none;
-    grid-column: 1 / -1;
     border-radius: var(--radius);
     border: 1px solid var(--c-border);
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
   }
 }

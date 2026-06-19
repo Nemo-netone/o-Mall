@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link, useParams, useLocation } from "wouter";
-import { getProduct, getCategory, formatPrice, ratingSummary } from "../data/catalog";
+import { getProduct, getCategory, formatPrice, ratingSummary, PRODUCTS } from "../data/catalog";
 import { useCart } from "../state/cart";
 import { Stars } from "../components/Stars";
+import { ProductCard } from "../components/ProductCard";
+import { SectionHeader } from "../components/SectionHeader";
 
 type Tab = "usage" | "formula" | "reviews";
 
@@ -28,9 +30,16 @@ export function ProductDetail() {
   const category = getCategory(product.categoryId);
   const isInquiry = product.price <= 0;
   const { avg, count, bars } = ratingSummary(product);
+  const related = PRODUCTS.filter(
+    (p) => p.categoryId === product.categoryId && p.id !== product.id,
+  ).slice(0, 4);
 
   return (
     <div className="page detail" style={{ ["--theme" as string]: product.theme }}>
+      <Link href="/products" className="detail-back">
+        ← 返回商品列表
+      </Link>
+
       {/* Hero 卡 */}
       <div className="detail-hero">
         <div className="detail-hero-top">
@@ -220,6 +229,18 @@ export function ProductDetail() {
             {category.title}
           </Link>
         </p>
+      )}
+
+      {/* 相关推荐：同类其他商品 */}
+      {related.length > 0 && (
+        <section className="section">
+          <SectionHeader title="相关推荐" action="看更多" href={`/products?cat=${product.categoryId}`} />
+          <div className="grid">
+            {related.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
       )}
 
       {/* 吸底操作栏 */}
