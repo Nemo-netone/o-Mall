@@ -2294,3 +2294,163 @@ button:focus-visible {
     margin-top: 0.8rem;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   高级磨砂玻璃质感升级层（Apple 风）—— 追加覆盖，保持深绿/暖金主题
+   签名：悬浮磨砂 chrome（顶/底/吸底栏）+ 浮在 hero 上的磨砂玉牌 + 草本环境光
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* 更柔和的多层阴影（贴地接触阴影 + 大范围环境阴影） */
+  --shadow: 0 1px 2px rgba(15, 51, 37, 0.05), 0 12px 32px rgba(15, 51, 37, 0.10);
+  --shadow-sm: 0 1px 2px rgba(15, 51, 37, 0.04), 0 5px 16px rgba(15, 51, 37, 0.07);
+  --shadow-lift: 0 2px 6px rgba(15, 51, 37, 0.07), 0 18px 44px rgba(15, 51, 37, 0.16);
+  /* 玻璃材质 */
+  --glass-blur: saturate(180%) blur(20px);
+  --glass-light: rgba(255, 255, 255, 0.72);
+  --glass-hairline: rgba(255, 255, 255, 0.55);
+  --hairline: 1px solid rgba(15, 51, 37, 0.06);
+}
+
+/* 环境光背景：给磨砂层提供可虚化的底图（金 / 玉 / 绿 极淡径向光） */
+body {
+  background:
+    radial-gradient(62% 48% at 10% -2%, rgba(184, 146, 75, 0.16), transparent 60%),
+    radial-gradient(54% 42% at 98% 6%, rgba(47, 106, 82, 0.16), transparent 58%),
+    radial-gradient(80% 60% at 50% 108%, rgba(29, 77, 58, 0.12), transparent 60%),
+    var(--c-bg);
+  background-attachment: fixed;
+}
+
+/* 顶栏：磨砂深绿玻璃，内容从下方虚化穿过 */
+.topbar {
+  background: linear-gradient(135deg, rgba(29, 77, 58, 0.82), rgba(15, 51, 37, 0.84));
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* 底部导航：iOS 式浅色磨砂玻璃 */
+.bottomnav {
+  background: var(--glass-light);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-top: 1px solid var(--glass-hairline);
+  box-shadow: 0 -8px 28px rgba(15, 51, 37, 0.08);
+}
+
+/* 吸底操作栏 / 结算栏 / 支付栏：浅色磨砂玻璃 */
+.detail-bar,
+.cart-bar,
+.pay-bar {
+  background: var(--glass-light);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-hairline);
+  box-shadow: 0 -6px 24px rgba(15, 51, 37, 0.10);
+}
+
+/* 统计条：浮在 hero 底部的磨砂「玉牌」 */
+.statbar {
+  position: relative;
+  z-index: 3;
+  margin: -2.3rem 0.7rem 0;
+  border-radius: var(--radius);
+  background: rgba(15, 51, 37, 0.5);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: var(--shadow);
+}
+
+/* hero：芯片做成磨砂金药丸 + 顶部加一层极淡暗角，质感更立体 */
+.hero-chip {
+  background: rgba(184, 146, 75, 0.88);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+/* 内容卡：实心「材质」+ hairline 描边（文字保持清晰，不做半透明） */
+.card,
+.product-card {
+  border: var(--hairline);
+}
+
+/* 科学护肝 banner：叠一层磨砂高光，更通透 */
+.science {
+  box-shadow: var(--shadow);
+}
+
+/* 按钮：加柔和投影与微高光，按压回弹已有 */
+.btn-primary {
+  background: linear-gradient(135deg, #24604a, var(--c-primary));
+}
+.btn-primary,
+.btn-gold,
+.btn-theme {
+  box-shadow: 0 6px 16px rgba(15, 51, 37, 0.16);
+}
+
+/* 悬浮微交互：仅在支持 hover 的设备，且尊重 reduced-motion */
+@media (hover: hover) {
+  .product-card,
+  .article,
+  .feature-card,
+  .quicknav-ico,
+  .oicon-circle {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .product-card:hover,
+  .article:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+  }
+  .feature-card:hover {
+    transform: translateY(-2px);
+  }
+  .quicknav-item:hover .quicknav-ico,
+  .oicon:hover .oicon-circle {
+    transform: translateY(-3px);
+  }
+  .btn:hover {
+    filter: brightness(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card,
+  .article,
+  .feature-card,
+  .quicknav-ico,
+  .oicon-circle,
+  .btn {
+    transition: none;
+  }
+}
+
+/* 不支持 backdrop-filter 时的回退：用更实的底色保证可读 */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .topbar {
+    background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
+  }
+  .bottomnav,
+  .detail-bar,
+  .cart-bar,
+  .pay-bar {
+    background: #fff;
+  }
+  .statbar {
+    background: var(--c-primary-dark);
+  }
+}
+
+/* 区块标题带右侧操作（如：我的订单 → 全部订单） */
+.cblock-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+.cblock-head h3 {
+  margin-bottom: 0;
+}

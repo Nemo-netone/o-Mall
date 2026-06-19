@@ -4,22 +4,48 @@ import { useCart } from "../state/cart";
 import { TrustBadges } from "../components/TrustBadges";
 
 const ORDER_ICONS = [
-  { label: "待付款", icon: "💳", badge: 2 },
-  { label: "待发货", icon: "📦", badge: 1 },
-  { label: "待收货", icon: "🚚", badge: 1 },
-  { label: "已完成", icon: "✅" },
+  { label: "待付款", icon: "💳", badge: 2, href: "/cart" },
+  { label: "待发货", icon: "📦", badge: 1, href: "/cart" },
+  { label: "待收货", icon: "🚚", badge: 1, href: "/cart" },
+  { label: "已完成", icon: "✅", href: "/cart" },
 ];
 
+// href 以 mailto: 开头的走 <a>，其余走站内 <Link>
 const SERVICES = [
-  { label: "我的优惠券", icon: "🏷️" },
-  { label: "我的收藏", icon: "⭐" },
-  { label: "浏览记录", icon: "🕘" },
-  { label: "地址管理", icon: "📍" },
-  { label: "售后服务", icon: "🎧" },
-  { label: "客服中心", icon: "💬" },
-  { label: "分享有礼", icon: "🎁" },
-  { label: "联系客服", icon: "📞" },
+  { label: "我的优惠券", icon: "🏷️", href: "/products" },
+  { label: "我的收藏", icon: "⭐", href: "/products" },
+  { label: "浏览记录", icon: "🕘", href: "/products" },
+  { label: "地址管理", icon: "📍", href: "/checkout" },
+  { label: "售后服务", icon: "🎧", href: "/functions" },
+  { label: "客服中心", icon: "💬", href: "mailto:sales@o-mall.example" },
+  { label: "分享有礼", icon: "🎁", href: "/charity" },
+  { label: "联系客服", icon: "📞", href: "mailto:sales@o-mall.example" },
 ];
+
+/** 宫格图标：内部链接用 Link，mailto 用 a */
+function Tile({ href, icon, label, badge }: { href: string; icon: string; label: string; badge?: number }) {
+  const inner = (
+    <>
+      <span className="oicon-circle" aria-hidden="true">
+        {icon}
+      </span>
+      <span>{label}</span>
+      {badge ? <span className="navbadge">{badge}</span> : null}
+    </>
+  );
+  if (href.startsWith("mailto:")) {
+    return (
+      <a className="oicon" href={href}>
+        {inner}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} className="oicon">
+      {inner}
+    </Link>
+  );
+}
 
 export function Profile() {
   const { count } = useCart();
@@ -43,14 +69,14 @@ export function Profile() {
           </Link>
         </div>
         <div className="profile-stats">
-          <div className="profile-stat">
+          <Link href="/cart" className="profile-stat">
             <b>{count}</b>
             <span>购物车</span>
-          </div>
-          <div className="profile-stat">
+          </Link>
+          <Link href="/products" className="profile-stat">
             <b>0</b>
             <span>收藏</span>
-          </div>
+          </Link>
           <div className="profile-stat">
             <b>320</b>
             <span>积分</span>
@@ -64,16 +90,15 @@ export function Profile() {
 
       {/* 我的订单 */}
       <section className="cblock" style={{ marginTop: "1rem" }}>
-        <h3>我的订单</h3>
+        <div className="cblock-head">
+          <h3>我的订单</h3>
+          <Link href="/cart" className="more-link">
+            全部订单 →
+          </Link>
+        </div>
         <div className="order-icons">
           {ORDER_ICONS.map((o) => (
-            <div key={o.label} className="oicon">
-              <span className="oicon-circle" aria-hidden="true">
-                {o.icon}
-              </span>
-              <span>{o.label}</span>
-              {o.badge ? <span className="navbadge">{o.badge}</span> : null}
-            </div>
+            <Tile key={o.label} href={o.href} icon={o.icon} label={o.label} badge={o.badge} />
           ))}
         </div>
       </section>
@@ -83,12 +108,7 @@ export function Profile() {
         <h3>我的服务</h3>
         <div className="service-grid">
           {SERVICES.map((s) => (
-            <div key={s.label} className="oicon">
-              <span className="oicon-circle" aria-hidden="true">
-                {s.icon}
-              </span>
-              <span>{s.label}</span>
-            </div>
+            <Tile key={s.label} href={s.href} icon={s.icon} label={s.label} />
           ))}
         </div>
       </section>
