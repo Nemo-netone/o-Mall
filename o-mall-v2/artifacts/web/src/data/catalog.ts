@@ -395,6 +395,18 @@ export const RECOMMEND = {
   image: "/images/gift_box.png",
 };
 
+export const COUPONS = [
+  { id: "new-user", value: "¥20", title: "新人健康礼", desc: "满 129 可用，结算页自动演示优惠" },
+  { id: "liver-care", value: "9折", title: "护肝专区券", desc: "适用于护肝保健分类商品" },
+  { id: "free-ship", value: "包邮", title: "满额包邮券", desc: "满 299 元免运费" },
+] as const;
+
+export const ORDER_PREVIEW = [
+  { id: "om-260618", title: "肽润肝清® 护肝醒酒冲剂", status: "待发货", amount: "¥135" },
+  { id: "om-260602", title: "肽配膳道® 益生菌礼盒", status: "已完成", amount: "¥138" },
+  { id: "om-260521", title: "元气肽丸® 多维营养胶囊", status: "待评价", amount: "¥128" },
+] as const;
+
 export function getProduct(id: string): Product | undefined {
   return PRODUCTS.find((p) => p.id === id);
 }

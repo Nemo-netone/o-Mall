@@ -5,16 +5,16 @@
 
 ## 0. 进度看板
 
-**整体进度：S0 完成（规划与本地骨架）· 待用户确认后执行 S1**
+**整体进度：S1–S4 完成 · 数据已入库、前端读库、已发布；S5 图片迁 Storage 后置**
 
 | 里程碑 | 状态 | 说明 |
 |--------|------|------|
 | S0 规划 + 本地骨架 | ✅ | Drizzle schema、`sql/001_init.sql`、`.env.example`、本 PRD/Plan；Supabase 已登录、Management API 已验证可执行 SQL |
-| S1 建表 + RLS（线上） | ⬜ 待确认 | 在 Supabase 应用 `001_init.sql`（需用户明确同意改线上库） |
-| S2 seed 数据 | ⬜ | 把本地分类/商品/评价/内容写入库 |
-| S3 前端接入 supabase-js + 本地兜底 | ⬜ | 商品/分类/评价运行时读库，失败回退本地 |
-| S4 构建 + CloudBase 发布 | ⬜ | 注入 `VITE_SUPABASE_*`，build + deploy |
-| S5（后置）图片迁 Storage / 内容页读库 / 账号订单 | ⬜ | 可选增强 |
+| S1 建表 + RLS（线上） | ✅ | 已应用 `001_init.sql`：4 表 + RLS 公开只读（用户明确授权） |
+| S2 seed 数据 | ✅ | 已写入 6 分类 / 6 商品 / 12 评价 / 6 内容页 |
+| S3 前端接入 supabase-js + 本地兜底 | ✅ | `state/catalog` Context 本地兜底 + 运行时拉 Supabase；首页/列表/分类/详情读库；实测 REST 200、0 报错 |
+| S4 构建 + CloudBase 发布 | ✅ | 注入 `VITE_SUPABASE_*`，build + deploy 已上线 |
+| S5（后置）图片迁 Storage / 内容页读库 / 账号订单 | ⬜ | 可选增强（图片现仍随站点打包，路径存库） |
 
 > 图例：⬜ 未开始 ｜ 🟡 进行中 ｜ ✅ 已验收。
 

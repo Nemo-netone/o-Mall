@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { useCart } from "../state/cart";
 import { PAY_METHODS } from "../data/catalog";
+import { useShopUi } from "../state/shop-ui";
 
 const SHIP_FREE_AT = 299;
 
 export function Checkout() {
   const { lines, selectedTotal, clear } = useCart();
+  const { showToast, openSheet, selectedAddress, claimedCoupons } = useShopUi();
   const [submitted, setSubmitted] = useState(false);
   const [pay, setPay] = useState(PAY_METHODS[0]!.key);
   const selected = lines.filter((l) => l.selected && l.product.price > 0);
@@ -57,16 +59,17 @@ export function Checkout() {
       <h2 className="page-title">确认订单</h2>
 
       {/* 收货地址 */}
-      <section className="checkout-card">
+      <button className="checkout-card checkout-address" onClick={() => openSheet({ type: "address", title: "选择收货地址" })}>
         <div className="checkout-card-head">
-          <span aria-hidden="true">📍</span>收货地址
+          <span aria-hidden="true">⌖</span>收货地址
+          <small>切换 ›</small>
         </div>
         <div className="address-row">
-          <b>张三</b>
-          <span className="phone">138****0000</span>
-          <p>广东省深圳市南山区 ×× 路 1 号（模拟地址）</p>
+          <b>{selectedAddress.name}</b>
+          <span className="phone">{selectedAddress.phone}</span>
+          <p>{selectedAddress.line}</p>
         </div>
-      </section>
+      </button>
 
       {/* 商品清单 */}
       <section className="checkout-card">
@@ -104,6 +107,12 @@ export function Checkout() {
         </div>
       </section>
 
+      <button className="checkout-card coupon-entry" onClick={() => openSheet({ type: "coupons", title: "订单优惠券" })}>
+        <span>优惠券</span>
+        <b>{claimedCoupons.length ? `已领取 ${claimedCoupons.length} 张，可用于演示抵扣` : "领取新人券 / 包邮券"}</b>
+        <span>›</span>
+      </button>
+
       {/* 费用明细 */}
       <section className="checkout-card">
         <div className="checkout-card-head">
@@ -137,6 +146,7 @@ export function Checkout() {
           onClick={() => {
             setSubmitted(true);
             clear();
+            showToast("模拟支付成功");
           }}
         >
           立即支付（模拟）

@@ -1,62 +1,59 @@
 import { Link } from "wouter";
 import { VIP_BENEFITS } from "../data/catalog";
 import { useCart } from "../state/cart";
+import { useShopUi, type SheetType } from "../state/shop-ui";
 import { TrustBadges } from "../components/TrustBadges";
 
 const ORDER_ICONS = [
-  { label: "待付款", icon: "💳", badge: 2, href: "/cart" },
-  { label: "待发货", icon: "📦", badge: 1, href: "/cart" },
-  { label: "待收货", icon: "🚚", badge: 1, href: "/cart" },
-  { label: "已完成", icon: "✅", href: "/cart" },
+  { label: "待付款", icon: "¥", badge: 2, status: "待付款" },
+  { label: "待发货", icon: "□", badge: 1, status: "待发货" },
+  { label: "待收货", icon: "↗", badge: 1, status: "待收货" },
+  { label: "已完成", icon: "✓", status: "已完成" },
 ];
 
-// href 以 mailto: 开头的走 <a>，其余走站内 <Link>
 const SERVICES = [
-  { label: "我的优惠券", icon: "🏷️", href: "/products" },
-  { label: "我的收藏", icon: "⭐", href: "/products" },
-  { label: "浏览记录", icon: "🕘", href: "/products" },
-  { label: "地址管理", icon: "📍", href: "/checkout" },
-  { label: "售后服务", icon: "🎧", href: "/functions" },
-  { label: "客服中心", icon: "💬", href: "mailto:sales@o-mall.example" },
-  { label: "分享有礼", icon: "🎁", href: "/charity" },
-  { label: "联系客服", icon: "📞", href: "mailto:sales@o-mall.example" },
-];
+  { label: "我的优惠券", icon: "券", type: "coupons" },
+  { label: "我的收藏", icon: "★", type: "favorites" },
+  { label: "浏览记录", icon: "时", type: "history" },
+  { label: "地址管理", icon: "址", type: "address" },
+  { label: "售后服务", icon: "售", type: "service" },
+  { label: "客服中心", icon: "聊", type: "contact" },
+  { label: "分享有礼", icon: "礼", type: "share" },
+  { label: "会员权益", icon: "VIP", type: "vip" },
+] as const;
 
-/** 宫格图标：内部链接用 Link，mailto 用 a */
-function Tile({ href, icon, label, badge }: { href: string; icon: string; label: string; badge?: number }) {
-  const inner = (
-    <>
+function Tile({
+  icon,
+  label,
+  badge,
+  onClick,
+}: {
+  icon: string;
+  label: string;
+  badge?: number;
+  onClick: () => void;
+}) {
+  return (
+    <button className="oicon" onClick={onClick}>
       <span className="oicon-circle" aria-hidden="true">
         {icon}
       </span>
       <span>{label}</span>
       {badge ? <span className="navbadge">{badge}</span> : null}
-    </>
-  );
-  if (href.startsWith("mailto:")) {
-    return (
-      <a className="oicon" href={href}>
-        {inner}
-      </a>
-    );
-  }
-  return (
-    <Link href={href} className="oicon">
-      {inner}
-    </Link>
+    </button>
   );
 }
 
 export function Profile() {
   const { count } = useCart();
+  const { favorites, claimedCoupons, openSheet } = useShopUi();
 
   return (
     <div className="page">
-      {/* 渐变头部 */}
       <section className="profile-hero">
         <div className="profile-user">
           <span className="profile-avatar" aria-hidden="true">
-            👤
+            ◎
           </span>
           <div className="profile-user-info">
             <div className="profile-name">
@@ -64,56 +61,68 @@ export function Profile() {
             </div>
             <div className="profile-sign">科学配比 · 肽养身心</div>
           </div>
-          <Link href="/functions" className="btn btn-gold" style={{ padding: "0.4rem 0.9rem", fontSize: "0.8rem" }}>
+          <button
+            className="btn btn-gold"
+            style={{ padding: "0.4rem 0.9rem", fontSize: "0.8rem" }}
+            onClick={() => openSheet({ type: "vip", title: "会员权益" })}
+          >
             开通会员
-          </Link>
+          </button>
         </div>
         <div className="profile-stats">
           <Link href="/cart" className="profile-stat">
             <b>{count}</b>
             <span>购物车</span>
           </Link>
-          <Link href="/products" className="profile-stat">
-            <b>0</b>
+          <button className="profile-stat" onClick={() => openSheet({ type: "favorites", title: "我的收藏" })}>
+            <b>{favorites.length}</b>
             <span>收藏</span>
-          </Link>
+          </button>
+          <button className="profile-stat" onClick={() => openSheet({ type: "coupons", title: "我的优惠券" })}>
+            <b>{claimedCoupons.length || 3}</b>
+            <span>优惠券</span>
+          </button>
           <div className="profile-stat">
             <b>320</b>
             <span>积分</span>
           </div>
-          <div className="profile-stat">
-            <b>3</b>
-            <span>优惠券</span>
-          </div>
         </div>
       </section>
 
-      {/* 我的订单 */}
       <section className="cblock" style={{ marginTop: "1rem" }}>
         <div className="cblock-head">
           <h3>我的订单</h3>
-          <Link href="/cart" className="more-link">
+          <button className="more-link as-button" onClick={() => openSheet({ type: "orders", title: "全部订单" })}>
             全部订单 →
-          </Link>
+          </button>
         </div>
         <div className="order-icons">
           {ORDER_ICONS.map((o) => (
-            <Tile key={o.label} href={o.href} icon={o.icon} label={o.label} badge={o.badge} />
+            <Tile
+              key={o.label}
+              icon={o.icon}
+              label={o.label}
+              badge={o.badge}
+              onClick={() => openSheet({ type: "orders", title: o.label, status: o.status })}
+            />
           ))}
         </div>
       </section>
 
-      {/* 服务 */}
       <section className="cblock">
         <h3>我的服务</h3>
         <div className="service-grid">
           {SERVICES.map((s) => (
-            <Tile key={s.label} href={s.href} icon={s.icon} label={s.label} />
+            <Tile
+              key={s.label}
+              icon={s.icon}
+              label={s.label}
+              onClick={() => openSheet({ type: s.type as SheetType, title: s.label })}
+            />
           ))}
         </div>
       </section>
 
-      {/* VIP 权益 */}
       <section className="vip-card">
         <div className="vip-card-head">
           <span className="vip-pill">VIP</span>
@@ -121,13 +130,13 @@ export function Profile() {
         </div>
         <div className="vip-grid">
           {VIP_BENEFITS.map((v) => (
-            <div key={v.label} className="vip-item">
+            <button key={v.label} className="vip-item" onClick={() => openSheet({ type: "vip", title: v.label })}>
               <span className="vip-item-ico" aria-hidden="true">
                 {v.icon}
               </span>
               <b>{v.label}</b>
               <span>{v.sub}</span>
-            </div>
+            </button>
           ))}
         </div>
       </section>

@@ -2,9 +2,12 @@ import { Link } from "wouter";
 import type { Product } from "../types";
 import { formatPrice } from "../data/catalog";
 import { useCart } from "../state/cart";
+import { useShopUi } from "../state/shop-ui";
 
 export function ProductCard({ product }: { product: Product }) {
   const { add } = useCart();
+  const { showToast, isFavorite, toggleFavorite } = useShopUi();
+  const favorite = isFavorite(product.id);
 
   return (
     <div className="card product-card">
@@ -12,6 +15,9 @@ export function ProductCard({ product }: { product: Product }) {
         <img src={product.image} alt={product.name} loading="lazy" />
         {product.badge && <span className="tag-badge">{product.badge}</span>}
       </Link>
+      <button className={favorite ? "favorite-dot active" : "favorite-dot"} onClick={() => toggleFavorite(product)} aria-label="收藏商品">
+        {favorite ? "★" : "☆"}
+      </button>
       <div className="product-body">
         <Link href={`/product/${product.id}`} className="product-name">
           {product.name}
@@ -30,7 +36,13 @@ export function ProductCard({ product }: { product: Product }) {
             {product.originalPrice && <span className="price-old">¥{product.originalPrice}</span>}
           </div>
           {product.price > 0 ? (
-            <button className="btn-add" onClick={() => add(product)}>
+            <button
+              className="btn-add"
+              onClick={() => {
+                add(product);
+                showToast(`${product.name} 已加入购物车`);
+              }}
+            >
               加入购物车
             </button>
           ) : (

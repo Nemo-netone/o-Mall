@@ -5,6 +5,7 @@ import { useHashLocation } from "wouter/use-hash-location";
 import App from "./App";
 import { CartProvider } from "./state/cart";
 import { CatalogProvider } from "./state/catalog";
+import { ShopUiProvider } from "./state/shop-ui";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -12,7 +13,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Router hook={useHashLocation}>
       <CatalogProvider>
         <CartProvider>
-          <App />
+          <ShopUiProvider>
+            <App />
+          </ShopUiProvider>
         </CartProvider>
       </CatalogProvider>
     </Router>
