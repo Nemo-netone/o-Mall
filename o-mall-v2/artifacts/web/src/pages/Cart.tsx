@@ -1,9 +1,11 @@
 import { Link, useLocation } from "wouter";
 import { useCart } from "../state/cart";
 import { formatPrice, RECOMMEND, getProduct } from "../data/catalog";
+import { useShopUi } from "../state/shop-ui";
 
 export function Cart() {
   const { lines, selectedTotal, setQty, remove, toggleSelect, add } = useCart();
+  const { showToast, openSheet } = useShopUi();
   const [, navigate] = useLocation();
 
   const selectedCount = lines.filter((l) => l.selected).reduce((n, l) => n + l.qty, 0);
@@ -17,7 +19,10 @@ export function Cart() {
 
   const addRecommend = () => {
     const p = getProduct(RECOMMEND.id);
-    if (p) add(p);
+    if (p) {
+      add(p);
+      showToast("搭配商品已加入购物车");
+    }
   };
 
   if (lines.length === 0) {
@@ -72,8 +77,15 @@ export function Cart() {
                     +
                   </button>
                 </div>
-                <button className="cart-remove" onClick={() => remove(l.product.id)} aria-label="移除">
-                  🗑
+                <button
+                  className="cart-remove"
+                  onClick={() => {
+                    remove(l.product.id);
+                    showToast("商品已移除", "info");
+                  }}
+                  aria-label="移除"
+                >
+                  ×
                 </button>
               </div>
             </div>
@@ -102,7 +114,9 @@ export function Cart() {
         <span>
           已选 <span className="accent">{selectedCount}</span> 件
         </span>
-        <span>满 299 免运费 · 可得积分</span>
+        <button className="inline-link" onClick={() => openSheet({ type: "coupons", title: "可用优惠券" })}>
+          满 299 免运费 · 查看优惠券
+        </button>
       </div>
 
       {/* 全选 + 结算 */}

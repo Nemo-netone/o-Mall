@@ -771,7 +771,23 @@ button:focus-visible {
 
 /* ---------- 商品详情（主题色驱动，用 --theme） ---------- */
 .detail {
-  padding-bottom: 4.5rem;
+  padding-bottom: 5rem;
+}
+
+.detail-back {
+  display: inline-block;
+  margin-bottom: 0.7rem;
+  font-size: 0.84rem;
+  color: var(--c-muted);
+}
+.detail-back:hover {
+  color: var(--c-primary);
+}
+
+.list-count {
+  font-size: 0.78rem;
+  color: var(--c-muted);
+  margin-bottom: 0.7rem;
 }
 
 .detail-hero {
@@ -2265,21 +2281,1582 @@ button:focus-visible {
     font-size: 3.2rem;
   }
   .detail {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 1.4rem;
-    align-items: start;
-  }
-  .detail-hero {
-    grid-column: 1 / -1;
+    /* 桌面下保持单列居中：详情 Hero 内部已是图文并排，外层不再二分 */
+    max-width: 760px;
+    margin: 0 auto;
   }
   .detail-bar {
     /* 桌面下不吸底，跟随内容 */
     position: static;
     transform: none;
-    grid-column: 1 / -1;
     border-radius: var(--radius);
     border: 1px solid var(--c-border);
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   高级磨砂玻璃质感升级层（Apple 风）—— 追加覆盖，保持深绿/暖金主题
+   签名：悬浮磨砂 chrome（顶/底/吸底栏）+ 浮在 hero 上的磨砂玉牌 + 草本环境光
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* 更柔和的多层阴影（贴地接触阴影 + 大范围环境阴影） */
+  --shadow: 0 1px 2px rgba(15, 51, 37, 0.05), 0 12px 32px rgba(15, 51, 37, 0.10);
+  --shadow-sm: 0 1px 2px rgba(15, 51, 37, 0.04), 0 5px 16px rgba(15, 51, 37, 0.07);
+  --shadow-lift: 0 2px 6px rgba(15, 51, 37, 0.07), 0 18px 44px rgba(15, 51, 37, 0.16);
+  /* 玻璃材质 */
+  --glass-blur: saturate(180%) blur(20px);
+  --glass-light: rgba(255, 255, 255, 0.72);
+  --glass-hairline: rgba(255, 255, 255, 0.55);
+  --hairline: 1px solid rgba(15, 51, 37, 0.06);
+}
+
+/* 环境光背景：给磨砂层提供可虚化的底图（金 / 玉 / 绿 极淡径向光） */
+body {
+  background:
+    radial-gradient(62% 48% at 10% -2%, rgba(184, 146, 75, 0.16), transparent 60%),
+    radial-gradient(54% 42% at 98% 6%, rgba(47, 106, 82, 0.16), transparent 58%),
+    radial-gradient(80% 60% at 50% 108%, rgba(29, 77, 58, 0.12), transparent 60%),
+    var(--c-bg);
+  background-attachment: fixed;
+}
+
+/* 顶栏：磨砂深绿玻璃，内容从下方虚化穿过 */
+.topbar {
+  background: linear-gradient(135deg, rgba(29, 77, 58, 0.82), rgba(15, 51, 37, 0.84));
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* 底部导航：iOS 式浅色磨砂玻璃 */
+.bottomnav {
+  background: var(--glass-light);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-top: 1px solid var(--glass-hairline);
+  box-shadow: 0 -8px 28px rgba(15, 51, 37, 0.08);
+}
+
+/* 吸底操作栏 / 结算栏 / 支付栏：浅色磨砂玻璃 */
+.detail-bar,
+.cart-bar,
+.pay-bar {
+  background: var(--glass-light);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-hairline);
+  box-shadow: 0 -6px 24px rgba(15, 51, 37, 0.10);
+}
+
+/* 统计条：浮在 hero 底部的磨砂「玉牌」 */
+.statbar {
+  position: relative;
+  z-index: 3;
+  margin: -2.3rem 0.7rem 0;
+  border-radius: var(--radius);
+  background: rgba(15, 51, 37, 0.5);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: var(--shadow);
+}
+
+/* hero：芯片做成磨砂金药丸 + 顶部加一层极淡暗角，质感更立体 */
+.hero-chip {
+  background: rgba(184, 146, 75, 0.88);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+/* 内容卡：实心「材质」+ hairline 描边（文字保持清晰，不做半透明） */
+.card,
+.product-card {
+  border: var(--hairline);
+}
+
+/* 科学护肝 banner：叠一层磨砂高光，更通透 */
+.science {
+  box-shadow: var(--shadow);
+}
+
+/* 按钮：加柔和投影与微高光，按压回弹已有 */
+.btn-primary {
+  background: linear-gradient(135deg, #24604a, var(--c-primary));
+}
+.btn-primary,
+.btn-gold,
+.btn-theme {
+  box-shadow: 0 6px 16px rgba(15, 51, 37, 0.16);
+}
+
+/* 悬浮微交互：仅在支持 hover 的设备，且尊重 reduced-motion */
+@media (hover: hover) {
+  .product-card,
+  .article,
+  .feature-card,
+  .quicknav-ico,
+  .oicon-circle {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .product-card:hover,
+  .article:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+  }
+  .feature-card:hover {
+    transform: translateY(-2px);
+  }
+  .quicknav-item:hover .quicknav-ico,
+  .oicon:hover .oicon-circle {
+    transform: translateY(-3px);
+  }
+  .btn:hover {
+    filter: brightness(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card,
+  .article,
+  .feature-card,
+  .quicknav-ico,
+  .oicon-circle,
+  .btn {
+    transition: none;
+  }
+}
+
+/* 不支持 backdrop-filter 时的回退：用更实的底色保证可读 */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .topbar {
+    background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
+  }
+  .bottomnav,
+  .detail-bar,
+  .cart-bar,
+  .pay-bar {
+    background: #fff;
+  }
+  .statbar {
+    background: var(--c-primary-dark);
+  }
+}
+
+/* 区块标题带右侧操作（如：我的订单 → 全部订单） */
+.cblock-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+.cblock-head h3 {
+  margin-bottom: 0;
+}
+
+/* ═══════════ 内容展示页（shop 原文）补充样式 ═══════════ */
+.cblock-sub {
+  font-size: 0.78rem;
+  color: var(--c-muted);
+  margin: -0.3rem 0 0.8rem;
+}
+
+/* 企业简介：左边框引文段 */
+.intro-para {
+  padding: 0.8rem 0.9rem;
+  border-radius: 10px;
+  border-left: 3px solid var(--c-accent);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: #3a463d;
+  margin-bottom: 0.7rem;
+}
+.intro-para.gold {
+  background: var(--c-cream);
+  border-left-color: var(--c-accent);
+}
+.intro-para.green {
+  background: var(--c-jade);
+  border-left-color: var(--c-primary);
+}
+
+/* 合作企业：更多 toggle + 列表 */
+.more-toggle {
+  width: 100%;
+  margin-top: 0.8rem;
+  padding: 0.55rem;
+  border: 1px solid var(--c-border);
+  background: var(--c-cream);
+  color: var(--c-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.more-list {
+  margin-top: 0.7rem;
+  padding: 0.8rem;
+  background: var(--c-cream);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+}
+.more-list-note {
+  font-size: 0.74rem;
+  color: var(--c-muted);
+  margin-bottom: 0.4rem;
+}
+.more-list-row {
+  font-size: 0.86rem;
+  color: var(--c-text);
+  padding: 0.2rem 0;
+}
+.cblock-divider {
+  border-top: 1px solid var(--c-border);
+  margin: 1rem 0 0.4rem;
+  padding-top: 0.8rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--c-primary-dark);
+}
+.note-box {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.8rem;
+  padding: 0.7rem 0.8rem;
+  background: var(--c-cream);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 0.76rem;
+  color: var(--c-muted);
+  line-height: 1.6;
+}
+
+/* 金色 banner（技术 / 产品功能 F值） */
+.gold-banner {
+  border-radius: var(--radius);
+  background: linear-gradient(120deg, var(--c-accent), var(--c-accent-light));
+  color: #fff;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+.gold-banner h2 {
+  font-size: 1.9rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+.gold-banner h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+.gold-banner p {
+  font-size: 0.82rem;
+  opacity: 0.95;
+  margin-top: 0.3rem;
+}
+.gold-banner small {
+  display: block;
+  font-size: 0.68rem;
+  opacity: 0.85;
+  margin-top: 0.5rem;
+}
+.gold-banner-stats {
+  display: flex;
+  gap: 1.6rem;
+  margin-top: 0.9rem;
+}
+.gbs-item b {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+.gbs-item span {
+  font-size: 0.7rem;
+  opacity: 0.9;
+}
+.f-hero .f-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  margin-top: 0.8rem;
+  overflow: hidden;
+}
+.f-hero .f-bar-fill {
+  height: 100%;
+  width: 90%;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* 绿色 banner（爱心助农） */
+.green-banner {
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--c-primary), var(--c-primary-light));
+  color: #fff;
+  padding: 1.3rem 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+.green-banner-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+.green-banner-sub {
+  font-size: 0.82rem;
+  opacity: 0.9;
+  margin: 0.5rem 0 0.7rem;
+}
+.green-banner-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.green-banner-tags span {
+  font-size: 0.8rem;
+  color: var(--c-accent-light);
+}
+
+/* 分段选择器（技术三选一 / 功能场景） */
+.seg-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+.seg-tab {
+  flex: 1;
+  padding: 0.55rem 0.4rem;
+  border: 1.5px solid var(--c-accent);
+  background: #fff;
+  color: var(--c-accent);
+  border-radius: 12px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1.3;
+}
+.seg-tab.active {
+  background: var(--c-accent);
+  color: #fff;
+}
+.seg-pill {
+  padding: 0.4rem 0.9rem;
+  border: 1.5px solid var(--c-accent);
+  background: transparent;
+  color: var(--c-accent);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.seg-pill.active {
+  background: var(--c-accent);
+  color: #fff;
+}
+
+/* 专利标题/元信息 */
+.patent-title {
+  font-size: 0.86rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.patent-meta {
+  font-size: 0.72rem;
+  color: var(--c-muted);
+  margin-top: 2px;
+}
+
+/* 两列网格（助农数据 / 剂型 / 场景信息） */
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+}
+.stat-cell {
+  background: var(--c-cream);
+  border-radius: 12px;
+  padding: 0.9rem;
+  text-align: center;
+}
+.stat-cell b {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--c-primary-dark);
+}
+.stat-cell span {
+  font-size: 0.74rem;
+  color: var(--c-muted);
+}
+.wheat-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* 助农行动 / 省份分布 */
+.action-row {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.8rem 0;
+  border-top: 1px solid var(--c-border);
+}
+.action-row:first-of-type {
+  border-top: none;
+}
+.action-ico {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--c-jade);
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+}
+.province-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--c-border);
+}
+.province-row:first-of-type {
+  border-top: none;
+}
+.province-count {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--c-accent);
+}
+.province-unit {
+  font-size: 0.7rem;
+  color: var(--c-muted);
+  align-self: flex-end;
+  margin-bottom: 0.3rem;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--c-primary), var(--c-accent));
+}
+
+/* 麦农故事 */
+.farmer {
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--c-border);
+  margin-bottom: 0.4rem;
+}
+.farmer:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+.farmer-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.6rem;
+}
+.story-bubble {
+  background: var(--c-cream);
+  border-radius: 12px;
+  padding: 0.8rem 0.9rem;
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: #3a463d;
+}
+.warm-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: #fce8e8;
+  border: 1px solid #f5c6c6;
+  color: #c0392b;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+/* 产品功能：场景信息 / 剂型 / 竞品对比 / QA */
+.scene-cell {
+  background: var(--c-cream);
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+}
+.scene-label {
+  display: block;
+  font-size: 0.66rem;
+  color: var(--c-muted);
+  margin-bottom: 0.2rem;
+}
+.scene-value {
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.cycle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--c-jade);
+  color: var(--c-primary);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.8rem;
+  margin: 0.8rem 0 1rem;
+}
+.products-row {
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--c-border);
+  font-size: 0.8rem;
+  color: var(--c-primary);
+  font-weight: 600;
+  line-height: 1.6;
+}
+.dose-cell {
+  background: var(--c-cream);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.dose-ico {
+  font-size: 1.4rem;
+}
+.dose-cell b {
+  font-size: 0.86rem;
+}
+.dose-scene {
+  font-size: 0.66rem;
+  color: var(--c-accent);
+  font-weight: 600;
+}
+.dose-desc {
+  font-size: 0.72rem;
+  color: var(--c-muted);
+  line-height: 1.5;
+}
+.brand-row {
+  margin-bottom: 0.9rem;
+}
+.brand-name {
+  font-size: 0.82rem;
+  color: var(--c-muted);
+  margin-bottom: 0.35rem;
+}
+.brand-name.primary {
+  color: var(--c-text);
+  font-weight: 700;
+}
+.brand-bar-area {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.brand-bar-bg {
+  flex: 1;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--c-border);
+  overflow: hidden;
+}
+.brand-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+}
+.brand-bar-val {
+  width: 36px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.brand-sub {
+  font-size: 0.66rem;
+  color: var(--c-muted);
+  margin-top: 2px;
+}
+.qa-item {
+  border-top: 1px solid var(--c-border);
+}
+.qa-item:first-of-type {
+  border-top: none;
+}
+.qa-q {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.8rem 0;
+  text-align: left;
+}
+.qa-badge {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--c-jade);
+  color: var(--c-primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.qa-question {
+  flex: 1;
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+.qa-caret {
+  font-size: 0.7rem;
+  color: var(--c-muted);
+}
+.qa-answer {
+  background: var(--c-cream);
+  border-radius: 8px;
+  padding: 0.7rem 0.8rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: #3a463d;
+}
+
+/* 护肝知识：搜索 / 文章副标题 / 分钟药丸 / 相关阅读 */
+.search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.9rem;
+  box-shadow: var(--shadow-sm);
+}
+.search-wrap input {
+  flex: 1;
+  border: none;
+  background: none;
+  font-size: 0.9rem;
+  color: var(--c-text);
+  outline: none;
+}
+.article-sub {
+  font-size: 0.74rem;
+  color: var(--c-muted);
+  margin: 0.25rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.mins-pill {
+  background: var(--c-accent);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 0.05rem 0.4rem;
+  border-radius: 8px;
+}
+.related-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  text-align: left;
+  background: var(--c-cream);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 0.6rem;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+}
+.related-thumb {
+  width: 56px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--c-jade);
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+}
+
+/* 健康评测：问卷 + 结果 */
+.quiz-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--c-muted);
+  margin-bottom: 0.6rem;
+}
+.section-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--c-primary);
+  background: var(--c-jade);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  padding: 0.15rem 0.6rem;
+}
+.quiz-question {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--c-text);
+  margin-bottom: 1.1rem;
+}
+.quiz-opts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.quiz-opt {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 0.85rem 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.quiz-opt:active {
+  transform: scale(0.99);
+}
+.opt-index {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--c-jade);
+  color: var(--c-primary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.opt-text {
+  flex: 1;
+  font-size: 0.95rem;
+}
+.opt-caret {
+  color: var(--c-muted);
+}
+.quiz-dots {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+.quiz-dot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+.quiz-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-border);
+}
+.quiz-dot.active {
+  background: var(--c-primary);
+}
+.quiz-dot-label {
+  font-size: 0.6rem;
+  color: var(--c-muted);
+}
+.quiz-dot-label.active {
+  color: var(--c-text);
+}
+.grade-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--c-card);
+  border: 1.5px solid var(--c-primary);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+.grade-circle {
+  width: 78px;
+  height: 78px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 3px solid var(--c-primary);
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+.grade-circle b {
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+.grade-circle small {
+  font-size: 0.66rem;
+}
+.grade-label {
+  font-size: 1rem;
+  font-weight: 700;
+}
+.grade-sub {
+  font-size: 0.7rem;
+  color: var(--c-muted);
+  margin: 2px 0 0.3rem;
+}
+.grade-desc {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: #3a463d;
+}
+.dim-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.dim-name {
+  width: 64px;
+  font-size: 0.74rem;
+}
+.dim-track {
+  flex: 1;
+  height: 7px;
+  border-radius: 4px;
+  background: var(--c-border);
+  overflow: hidden;
+}
+.dim-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+.dim-score {
+  width: 34px;
+  text-align: right;
+  font-size: 0.74rem;
+  color: var(--c-muted);
+}
+.dim-footer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.dim-tag {
+  flex: 1;
+  font-size: 0.7rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid;
+}
+.dim-tag.warn {
+  color: #c0392b;
+  background: #c0392b18;
+  border-color: #c0392b55;
+}
+.dim-tag.good {
+  color: #2f6a52;
+  background: #2f6a5218;
+  border-color: #2f6a5255;
+}
+.rec-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+.rec-label {
+  font-size: 0.7rem;
+  opacity: 0.95;
+}
+.rec-title {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-top: 0.2rem;
+}
+.rec-sub {
+  font-size: 0.72rem;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+.rec-btn {
+  flex-shrink: 0;
+  background: #fff;
+  color: var(--c-accent);
+  border: none;
+  border-radius: 12px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.quiz-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+.quiz-actions .btn {
+  flex: 1;
+}
+
+/* ---------- Apple glass commerce refresh ---------- */
+:root {
+  color-scheme: light;
+  --c-primary: #1b5c4a;
+  --c-primary-dark: #09281f;
+  --c-primary-light: #28745f;
+  --c-accent: #c69a42;
+  --c-accent-light: #f2d38a;
+  --c-bg: #eef5f1;
+  --c-card: rgba(255, 255, 255, 0.74);
+  --c-cream: rgba(255, 250, 237, 0.78);
+  --c-jade: rgba(221, 239, 231, 0.78);
+  --c-muted: #66736b;
+  --c-border: rgba(255, 255, 255, 0.62);
+  --c-text: #15221c;
+  --glass: rgba(255, 255, 255, 0.62);
+  --glass-strong: rgba(255, 255, 255, 0.82);
+  --shadow: 0 18px 48px rgba(30, 78, 57, 0.14);
+  --shadow-sm: 0 10px 28px rgba(30, 78, 57, 0.1);
+  --hairline: 1px solid rgba(255, 255, 255, 0.68);
+  --radius: 20px;
+}
+
+html {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.92), transparent 24rem),
+    radial-gradient(circle at 80% 10%, rgba(198, 154, 66, 0.22), transparent 18rem),
+    linear-gradient(135deg, #eef7f2 0%, #f8fbf7 48%, #e7f0ec 100%);
+}
+
+body {
+  background: transparent;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.72), transparent 34%),
+    radial-gradient(circle at 52% 0%, rgba(39, 116, 95, 0.1), transparent 26rem);
+  z-index: -1;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+.topbar {
+  top: 0.6rem;
+  width: min(var(--maxw), calc(100% - 1rem));
+  margin: 0 auto;
+  border-radius: 999px;
+  padding: 0.55rem 0.7rem;
+  background: rgba(16, 54, 41, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(22px) saturate(160%);
+  box-shadow: 0 18px 46px rgba(8, 40, 30, 0.2);
+}
+
+.topbar-search {
+  flex: 1;
+  min-width: 120px;
+  max-width: 360px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.topbar-search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #fff;
+  min-width: 0;
+}
+
+.topbar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.source-pill {
+  flex-shrink: 0;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 0.68rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.topbar-cart {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 1.05rem;
+}
+
+.main {
+  padding-top: 1.2rem;
+}
+
+.bottomnav,
+.detail-bar,
+.cart-bar,
+.pay-bar {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(22px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: 0 -18px 42px rgba(40, 83, 64, 0.12);
+}
+
+.bottomnav {
+  bottom: 0.55rem;
+  width: min(var(--maxw), calc(100% - 1rem));
+  border-radius: 999px;
+  height: 62px;
+}
+
+.navicon {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(27, 92, 74, 0.08);
+}
+
+.navitem.active .navicon {
+  background: var(--c-primary);
+  color: #fff;
+}
+
+.hero,
+.content-header,
+.cart-banner,
+.profile-hero,
+.gold-banner,
+.science,
+.card,
+.cblock,
+.checkout-card,
+.vip-card,
+.recommend,
+.tabs,
+.qty-card,
+.deal-stack {
+  border: var(--hairline);
+  background: var(--glass);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: var(--shadow-sm);
+}
+
+.hero {
+  min-height: 360px;
+  border-radius: 30px;
+  align-items: stretch;
+  isolation: isolate;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 38%);
+  pointer-events: none;
+}
+
+.hero-mask {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to top, rgba(7, 35, 27, 0.82), rgba(7, 35, 27, 0.12));
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 8vw, 4.5rem);
+  letter-spacing: 0;
+}
+
+.hero-chip,
+.tag-badge,
+.detail-badge,
+.vip-pill,
+.science-chip {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.statbar {
+  margin-top: -1.4rem;
+  position: relative;
+  z-index: 2;
+  border: var(--hairline);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: var(--shadow-sm);
+}
+
+.feature-card,
+.quicknav-item,
+.trust-item,
+.product-card,
+.detail-hero,
+.tab-body,
+.cart-line,
+.pay-method,
+.article,
+.tech-card,
+.grade-card {
+  background: rgba(255, 255, 255, 0.66);
+  border: var(--hairline);
+  backdrop-filter: blur(16px) saturate(150%);
+}
+
+.product-card {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.product-media {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(225, 239, 231, 0.78)),
+    var(--c-cream);
+}
+
+.favorite-dot {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  background: rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(14px);
+  color: var(--c-accent);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.favorite-dot.active {
+  background: var(--c-accent);
+  color: #fff;
+}
+
+.list-tools {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: 0.7rem;
+  margin-bottom: 0.8rem;
+}
+
+.product-search {
+  margin: 0;
+}
+
+.list-tools select {
+  border: var(--hairline);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0 0.8rem;
+  color: var(--c-text);
+}
+
+.detail-actions-top {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.soft-action,
+.inline-link,
+.as-button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--c-primary);
+  font-weight: 700;
+}
+
+.soft-action {
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  border: var(--hairline);
+}
+
+.soft-action.active {
+  color: #fff;
+  background: var(--c-accent);
+}
+
+.deal-stack {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.9rem;
+  border-radius: 22px;
+  margin: 0.9rem 0;
+}
+
+.deal-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  gap: 0.65rem;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.deal-k {
+  color: var(--c-muted);
+  font-size: 0.78rem;
+}
+
+.deal-row b {
+  font-size: 0.86rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.service-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.service-strip span {
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(27, 92, 74, 0.08);
+  color: var(--c-primary);
+  font-size: 0.72rem;
+}
+
+.checkout-address,
+.coupon-entry {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.checkout-card-head small {
+  margin-left: auto;
+  color: var(--c-primary);
+}
+
+.coupon-entry {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.profile-stat,
+.oicon,
+.vip-item {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.profile-stat {
+  background: rgba(255, 255, 255, 0.42);
+  border-radius: 14px;
+}
+
+.oicon,
+.vip-item {
+  background: rgba(255, 255, 255, 0.58);
+  border: var(--hairline);
+}
+
+.oicon-circle {
+  font-size: 0.82rem;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--nav-h) + 1.6rem);
+  transform: translateX(-50%);
+  z-index: 80;
+  width: min(360px, calc(100% - 2rem));
+  padding: 0.85rem 1rem;
+  border-radius: 999px;
+  color: #fff;
+  text-align: center;
+  background: rgba(18, 65, 49, 0.86);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 18px 44px rgba(8, 40, 30, 0.22);
+  animation: toastIn 0.2s ease;
+}
+
+.toast.info {
+  background: rgba(63, 83, 91, 0.9);
+}
+
+.toast.warn {
+  background: rgba(172, 104, 18, 0.9);
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(8, 32, 24, 0.28);
+  backdrop-filter: blur(6px);
+}
+
+.glass-sheet {
+  width: min(var(--maxw), calc(100% - 1rem));
+  max-height: min(74vh, 680px);
+  overflow: auto;
+  border-radius: 28px 28px 18px 18px;
+  border: var(--hairline);
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(26px) saturate(170%);
+  box-shadow: 0 -24px 60px rgba(18, 65, 49, 0.22);
+  padding: 0.7rem 1rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.sheet-handle {
+  width: 44px;
+  height: 4px;
+  margin: 0 auto 0.8rem;
+  border-radius: 999px;
+  background: rgba(27, 92, 74, 0.22);
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.sheet-head h3 {
+  color: var(--c-primary-dark);
+  font-size: 1.05rem;
+}
+
+.icon-action {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(27, 92, 74, 0.08);
+  cursor: pointer;
+}
+
+.sheet-sub,
+.sheet-empty {
+  color: var(--c-muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+}
+
+.coupon-list,
+.sheet-list,
+.address-list,
+.contact-panel {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.coupon-card,
+.contact-action,
+.address-option,
+.sheet-product,
+.order-preview,
+.service-row,
+.muted-card {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  border: var(--hairline);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.62);
+  padding: 0.8rem;
+}
+
+.coupon-card b {
+  display: block;
+  color: var(--c-price);
+  font-size: 1.4rem;
+}
+
+.coupon-card span,
+.contact-action b,
+.order-preview b,
+.service-row b {
+  display: block;
+  color: var(--c-primary-dark);
+}
+
+.coupon-card small,
+.contact-action span,
+.address-option small,
+.order-preview span,
+.service-row span {
+  color: var(--c-muted);
+  font-size: 0.78rem;
+}
+
+.mini-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.55rem 0.85rem;
+  background: var(--c-primary);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.mini-btn:disabled {
+  background: rgba(27, 92, 74, 0.18);
+  color: var(--c-muted);
+  cursor: default;
+}
+
+.mini-btn.full {
+  width: 100%;
+}
+
+.address-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  text-align: left;
+  cursor: pointer;
+}
+
+.address-option small {
+  grid-column: 1 / -1;
+}
+
+.address-option.active {
+  border-color: rgba(198, 154, 66, 0.72);
+  background: rgba(255, 248, 226, 0.72);
+}
+
+.address-tag {
+  align-self: start;
+  border-radius: 999px;
+  background: var(--c-primary);
+  color: #fff;
+  font-size: 0.68rem;
+  padding: 0.15rem 0.45rem;
+}
+
+.sheet-product {
+  justify-content: flex-start;
+}
+
+.sheet-product img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.share-code {
+  text-align: center;
+  padding: 1rem;
+  border-radius: 18px;
+  color: var(--c-primary-dark);
+  background: rgba(198, 154, 66, 0.16);
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    border-radius: 22px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .topbar-brand {
+    flex: 1;
+  }
+
+  .topbar-search {
+    order: 3;
+    max-width: none;
+    flex-basis: 100%;
+  }
+
+  .source-pill {
+    display: none;
+  }
+
+  .list-tools {
+    grid-template-columns: 1fr;
+  }
+
+  .deal-row {
+    grid-template-columns: 2.4rem minmax(0, 1fr) auto;
+  }
+
+  .toast {
+    bottom: calc(var(--nav-h) + 1.2rem);
   }
 }

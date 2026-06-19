@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { Link, useParams, useLocation } from "wouter";
-import { getProduct, getCategory, formatPrice, ratingSummary } from "../data/catalog";
+import { formatPrice, ratingSummary } from "../data/catalog";
+import { useCatalog, useProduct } from "../state/catalog";
 import { useCart } from "../state/cart";
+import { useShopUi } from "../state/shop-ui";
 import { Stars } from "../components/Stars";
+import { ProductCard } from "../components/ProductCard";
+import { SectionHeader } from "../components/SectionHeader";
 
 type Tab = "usage" | "formula" | "reviews";
 
 export function ProductDetail() {
   const { id } = useParams();
-  const product = id ? getProduct(id) : undefined;
+  const product = useProduct(id);
+  const { products, categories } = useCatalog();
   const { add } = useCart();
+  const { showToast, openSheet, isFavorite, toggleFavorite, selectedAddress } = useShopUi();
   const [, navigate] = useLocation();
   const [tab, setTab] = useState<Tab>("usage");
   const [qty, setQty] = useState(1);
@@ -25,12 +31,31 @@ export function ProductDetail() {
     );
   }
 
-  const category = getCategory(product.categoryId);
+  const category = categories.find((c) => c.id === product.categoryId);
   const isInquiry = product.price <= 0;
+  const favorite = isFavorite(product.id);
   const { avg, count, bars } = ratingSummary(product);
+  const related = products.filter(
+    (p) => p.categoryId === product.categoryId && p.id !== product.id,
+  ).slice(0, 4);
 
   return (
     <div className="page detail" style={{ ["--theme" as string]: product.theme }}>
+      <Link href="/products" className="detail-back">
+        ← 返回商品列表
+      </Link>
+      <div className="detail-actions-top">
+        <button className={favorite ? "soft-action active" : "soft-action"} onClick={() => toggleFavorite(product)}>
+          {favorite ? "★ 已收藏" : "☆ 收藏"}
+        </button>
+        <button
+          className="soft-action"
+          onClick={() => openSheet({ type: "contact", title: "联系客服", productId: product.id, productName: product.name })}
+        >
+          咨询客服
+        </button>
+      </div>
+
       {/* Hero 卡 */}
       <div className="detail-hero">
         <div className="detail-hero-top">
@@ -68,6 +93,25 @@ export function ProductDetail() {
             {product.sales && <span className="sales-badge">已售 {product.sales}</span>}
             {product.repurchase && <span className="sales-badge">复购 {product.repurchase}</span>}
           </div>
+        </div>
+      </div>
+
+      <div className="deal-stack">
+        <button className="deal-row" onClick={() => openSheet({ type: "coupons", title: "领取优惠券", productId: product.id })}>
+          <span className="deal-k">优惠</span>
+          <b>新人 ¥20 券、护肝专区 9 折券</b>
+          <span>领取 ›</span>
+        </button>
+        <button className="deal-row" onClick={() => openSheet({ type: "address", title: "选择收货地址" })}>
+          <span className="deal-k">配送</span>
+          <b>{selectedAddress.line}</b>
+          <span>切换 ›</span>
+        </button>
+        <div className="service-strip">
+          <span>正品保障</span>
+          <span>7天无理由</span>
+          <span>满299免运费</span>
+          <span>冷链/常温分仓</span>
         </div>
       </div>
 
@@ -222,24 +266,47 @@ export function ProductDetail() {
         </p>
       )}
 
+      {/* 相关推荐：同类其他商品 */}
+      {related.length > 0 && (
+        <section className="section">
+          <SectionHeader title="相关推荐" action="看更多" href={`/products?cat=${product.categoryId}`} />
+          <div className="grid">
+            {related.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* 吸底操作栏 */}
       <div className="detail-bar">
         <Link href="/cart" className="detail-bar-ico" aria-label="购物车">
           🛒<small>购物车</small>
         </Link>
         {isInquiry ? (
-          <a className="btn btn-theme" href="mailto:sales@o-mall.example" style={{ flex: 2 }}>
+          <button
+            className="btn btn-theme"
+            style={{ flex: 2 }}
+            onClick={() => openSheet({ type: "contact", title: "企业采购咨询", productId: product.id, productName: product.name })}
+          >
             联系企业采购
-          </a>
+          </button>
         ) : (
           <>
-            <button className="btn btn-theme-ghost" onClick={() => add(product, qty)}>
+            <button
+              className="btn btn-theme-ghost"
+              onClick={() => {
+                add(product, qty);
+                showToast(`${product.name} 已加入购物车`);
+              }}
+            >
               加入购物车
             </button>
             <button
               className="btn btn-theme"
               onClick={() => {
                 add(product, qty);
+                showToast("已为你放入购物车，准备结算");
                 navigate("/cart");
               }}
             >

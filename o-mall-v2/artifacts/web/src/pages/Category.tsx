@@ -1,9 +1,10 @@
 import { Link } from "wouter";
-import { CATEGORIES, PRODUCTS } from "../data/catalog";
+import { useCatalog } from "../state/catalog";
 import { ProductCard } from "../components/ProductCard";
 import { SectionHeader } from "../components/SectionHeader";
 
 export function Category() {
+  const { products, categories } = useCatalog();
   return (
     <div className="page">
       <header className="content-header">
@@ -15,7 +16,7 @@ export function Category() {
       <section className="section" style={{ marginTop: 0 }}>
         <SectionHeader title="全部分类" />
         <div className="quicknav">
-          {CATEGORIES.map((c) => (
+          {categories.map((c) => (
             <Link key={c.id} href={`/products?cat=${c.id}`} className="quicknav-item">
               <span className="quicknav-ico" style={{ background: "var(--c-jade)" }} aria-hidden="true">
                 {c.icon}
@@ -29,7 +30,7 @@ export function Category() {
       <section className="section">
         <SectionHeader title="全部商品" action="筛选" href="/products" />
         <div className="grid">
-          {PRODUCTS.map((p) => (
+          {products.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>

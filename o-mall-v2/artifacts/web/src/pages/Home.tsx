@@ -1,18 +1,13 @@
 import { Link } from "wouter";
-import {
-  HERO,
-  HOME_STATS,
-  FEATURE_CARDS,
-  QUICK_NAV,
-  PRODUCTS,
-  SCIENCE_BANNER,
-} from "../data/catalog";
+import { HERO, HOME_STATS, FEATURE_CARDS, QUICK_NAV, SCIENCE_BANNER } from "../data/catalog";
+import { useCatalog } from "../state/catalog";
 import { ProductCard } from "../components/ProductCard";
 import { SectionHeader } from "../components/SectionHeader";
 import { TrustBadges } from "../components/TrustBadges";
 
 export function Home() {
-  const featured = PRODUCTS.slice(0, 4);
+  const { products } = useCatalog();
+  const featured = products.slice(0, 4);
 
   return (
     <div className="page">

@@ -1,0 +1,7 @@
+# Supabase CLI 临时文件
+supabase/.temp/
+supabase/.branches/
+
+# Playwright / 根目录截图临时产物
+.playwright-mcp/
+/*.png
