@@ -1,19 +1,41 @@
+import { useState } from "react";
 import { COMPANY } from "../data/content";
 
+function Person({ p }: { p: { name: string; title: string; desc: string; tag?: string } }) {
+  return (
+    <div className="person">
+      <span className="person-avatar" aria-hidden="true">
+        {p.name.slice(0, 1)}
+      </span>
+      <div className="person-main">
+        <div className="person-name">
+          {p.name}
+          {p.tag && <span className="person-tag">{p.tag}</span>}
+        </div>
+        <div className="person-title">{p.title}</div>
+        <div className="person-desc">{p.desc}</div>
+      </div>
+    </div>
+  );
+}
+
 export function Company() {
+  const [showMore, setShowMore] = useState(false);
+
   return (
     <div className="page">
       <header className="content-header">
         <span className="chip">企业简介</span>
-        <h1>{COMPANY.title}</h1>
-        <p>肝安人安 · 肽养身心</p>
+        <h1>国肽民安·肽护中华</h1>
+        <p>{COMPANY.headerSub}</p>
       </header>
 
+      {/* 企业简介 */}
       <section className="cblock">
-        <h3>关于我们</h3>
-        {COMPANY.intro.map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
+        <h3>企业简介</h3>
+        <p className="cblock-sub">{COMPANY.introSubtitle}</p>
+        <div className="intro-para gold">{COMPANY.intro[0]}</div>
+        <div className="intro-para green">{COMPANY.intro[1]}</div>
         <div className="stat3">
           {COMPANY.stats.map((s) => (
             <div key={s.label} className="stat3-item">
@@ -24,10 +46,12 @@ export function Company() {
         </div>
       </section>
 
+      {/* 合作企业 */}
       <section className="cblock">
-        <h3>合作企业</h3>
+        <h3>已达成合作的企业</h3>
+        <p className="cblock-sub">覆盖生产、加工、销售全链条，均已签订合作/供销协议</p>
         <div className="list-rows">
-          {COMPANY.partners.map((p, i) => (
+          {COMPANY.partnersMain.map((p, i) => (
             <div key={p.name} className="list-row">
               <span className="list-no">{i + 1}</span>
               <div className="row-main">
@@ -37,53 +61,70 @@ export function Company() {
             </div>
           ))}
         </div>
-      </section>
-
-      <section className="cblock">
-        <h3>专家顾问</h3>
-        {COMPANY.advisors.map((a) => (
-          <div key={a.name} className="person">
-            <span className="person-avatar" aria-hidden="true">
-              {a.name.slice(0, 1)}
-            </span>
-            <div className="person-main">
-              <div className="person-name">
-                {a.name}
-                {a.tag && <span className="person-tag">{a.tag}</span>}
+        <button className="more-toggle" onClick={() => setShowMore((v) => !v)}>
+          {showMore ? "收起 ▲" : `查看其他 ${COMPANY.partnersMore.length} 家合作企业 ▼`}
+        </button>
+        {showMore && (
+          <div className="more-list">
+            <p className="more-list-note">涉及产品应用、检测认证、跨境销售等多领域合作：</p>
+            {COMPANY.partnersMore.map((name) => (
+              <div key={name} className="more-list-row">
+                ✓ {name}
               </div>
-              <div className="person-title">{a.title}</div>
-              <div className="person-desc">{a.desc}</div>
-            </div>
+            ))}
           </div>
-        ))}
+        )}
       </section>
 
+      {/* 指导老师 / 专家顾问 */}
+      <section className="cblock">
+        <h3>指导老师</h3>
+        {COMPANY.teachers.map((m) => (
+          <Person key={m.name} p={m} />
+        ))}
+        <div className="cblock-divider">专家顾问</div>
+        {COMPANY.experts.map((m) => (
+          <Person key={m.name} p={m} />
+        ))}
+        <div className="note-box">ℹ {COMPANY.expertNote}</div>
+      </section>
+
+      {/* 团队核心成员 */}
       <section className="cblock">
         <h3>团队核心成员</h3>
+        <p className="cblock-sub">多专业在校大学生组成，分工明确、优势互补</p>
+        <div className="pill-row" style={{ marginBottom: "0.6rem" }}>
+          {COMPANY.teamMajors.map((m) => (
+            <span key={m} className="pill">
+              {m}
+            </span>
+          ))}
+        </div>
         {COMPANY.team.map((m) => (
           <div key={m.name} className="person">
             <span className="person-avatar" aria-hidden="true">
-              {m.name.slice(0, 1)}
+              {m.icon ?? m.name.slice(0, 1)}
             </span>
             <div className="person-main">
               <div className="person-name">
                 {m.name}
-                {m.field && <span className="person-tag">{m.field}</span>}
+                <span className="person-tag">{m.title}</span>
               </div>
-              <div className="person-title">{m.title}</div>
+              <div className="person-title">{m.major}专业</div>
               <div className="person-desc">{m.desc}</div>
             </div>
           </div>
         ))}
       </section>
 
+      {/* 联系我们 */}
       <section className="cblock">
         <h3>联系我们</h3>
         {COMPANY.contact.map((c) => (
           <div key={c.label} className="contact-row">
             <span aria-hidden="true">{c.icon}</span>
             <span className="ck">{c.label}</span>
-            <span>{c.value}</span>
+            <span>{c.val}</span>
           </div>
         ))}
       </section>
