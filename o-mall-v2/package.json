@@ -8,7 +8,9 @@
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --if-present run typecheck",
-    "dev": "pnpm --filter @o-mall/api-server run dev"
+    "dev": "pnpm --filter @o-mall/api-server run dev",
+    "dev:web": "pnpm --filter @o-mall/web run dev",
+    "dev:all": "pnpm --filter @o-mall/api-server run dev & pnpm --filter @o-mall/web run dev"
   },
   "devDependencies": {
     "prettier": "^3.4.2",
