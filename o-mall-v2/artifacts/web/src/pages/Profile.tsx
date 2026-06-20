@@ -12,6 +12,7 @@ const ORDER_ICONS = [
 ];
 
 const SERVICES = [
+  { label: "AI顾问", icon: "AI", type: "ai" },
   { label: "我的优惠券", icon: "券", type: "coupons" },
   { label: "我的收藏", icon: "★", type: "favorites" },
   { label: "浏览记录", icon: "时", type: "history" },

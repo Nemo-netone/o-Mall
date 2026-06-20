@@ -54,6 +54,12 @@ export function ProductDetail() {
         >
           咨询客服
         </button>
+        <button
+          className="soft-action ai-soft-action"
+          onClick={() => openSheet({ type: "ai", title: "问 AI 顾问", productId: product.id, productName: product.name })}
+        >
+          AI 搭配
+        </button>
       </div>
 
       {/* Hero 卡 */}
@@ -112,6 +118,9 @@ export function ProductDetail() {
           <span>7天无理由</span>
           <span>满299免运费</span>
           <span>冷链/常温分仓</span>
+          <button onClick={() => openSheet({ type: "ai", title: "AI 食用建议", productId: product.id, productName: product.name })}>
+            AI 食用建议
+          </button>
         </div>
       </div>
 

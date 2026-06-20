@@ -18,6 +18,7 @@ export interface ToastState {
 }
 
 export type SheetType =
+  | "ai"
   | "coupons"
   | "contact"
   | "address"

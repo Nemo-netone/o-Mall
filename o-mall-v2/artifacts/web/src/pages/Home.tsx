@@ -4,9 +4,11 @@ import { useCatalog } from "../state/catalog";
 import { ProductCard } from "../components/ProductCard";
 import { SectionHeader } from "../components/SectionHeader";
 import { TrustBadges } from "../components/TrustBadges";
+import { useShopUi } from "../state/shop-ui";
 
 export function Home() {
   const { products } = useCatalog();
+  const { openSheet } = useShopUi();
   const featured = products.slice(0, 4);
 
   return (
@@ -18,9 +20,14 @@ export function Home() {
           <h1 className="hero-title">{HERO.title}</h1>
           <div className="hero-rule" />
           <p className="hero-sub">{HERO.subtitle}</p>
-          <Link href={HERO.href} className="btn btn-gold">
-            {HERO.cta}
-          </Link>
+          <div className="hero-actions">
+            <Link href={HERO.href} className="btn btn-gold">
+              {HERO.cta}
+            </Link>
+            <button className="btn hero-ai-btn" onClick={() => openSheet({ type: "ai", title: "AI 健康顾问" })}>
+              AI 帮我选
+            </button>
+          </div>
         </div>
       </section>
 

@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { useState, type FormEvent, type ReactNode } from "react";
 import { useCart } from "../state/cart";
 import { useCatalog } from "../state/catalog";
+import { useShopUi } from "../state/shop-ui";
 import { BrandSeal, BrandLockup } from "./Brand";
 import { GlobalOverlays } from "./GlobalOverlays";
 
@@ -16,6 +17,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const [location, navigate] = useLocation();
   const { count } = useCart();
   const { source, loading } = useCatalog();
+  const { openSheet } = useShopUi();
   const [query, setQuery] = useState("");
 
   const submitSearch = (event: FormEvent) => {
@@ -49,7 +51,29 @@ export function Layout({ children }: { children: ReactNode }) {
       <main className="main">{children}</main>
 
       <nav className="bottomnav">
-        {NAV.map((n) => {
+        {NAV.slice(0, 2).map((n) => {
+          const active = n.href === "/" ? location === "/" : location.startsWith(n.href);
+          return (
+            <Link key={n.href} href={n.href} className={active ? "navitem active" : "navitem"}>
+              <span className="navicon" aria-hidden="true">
+                {n.icon}
+              </span>
+              <span className="navlabel">{n.label}</span>
+              {n.href === "/cart" && count > 0 && <span className="navbadge">{count}</span>}
+            </Link>
+          );
+        })}
+        <button
+          className="navitem ai-navitem"
+          onClick={() => openSheet({ type: "ai", title: "AI 健康顾问" })}
+          aria-label="打开 AI 健康顾问"
+        >
+          <span className="ai-nav-orb" aria-hidden="true">
+            AI
+          </span>
+          <span className="ai-navlabel">问AI</span>
+        </button>
+        {NAV.slice(2).map((n) => {
           const active = n.href === "/" ? location === "/" : location.startsWith(n.href);
           return (
             <Link key={n.href} href={n.href} className={active ? "navitem active" : "navitem"}>

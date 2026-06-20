@@ -9,7 +9,7 @@ const SHIP_FREE_AT = 299;
 export function Checkout() {
   const { lines, selectedTotal, clear } = useCart();
   const { showToast, openSheet, selectedAddress, claimedCoupons } = useShopUi();
-  const [submitted, setSubmitted] = useState(false);
+  const [receipt, setReceipt] = useState<{ amount: number; payLabel: string; orderNo: string } | null>(null);
   const [pay, setPay] = useState(PAY_METHODS[0]!.key);
   const selected = lines.filter((l) => l.selected && l.product.price > 0);
 
@@ -19,7 +19,7 @@ export function Checkout() {
   const shipping = goods - discount >= SHIP_FREE_AT ? 0 : goods > 0 ? 12 : 0;
   const payable = Math.max(0, goods - discount + shipping);
 
-  if (submitted) {
+  if (receipt) {
     return (
       <div className="page empty-state">
         <div className="success-icon" aria-hidden="true">
@@ -27,11 +27,11 @@ export function Checkout() {
         </div>
         <h2>支付成功（模拟）</h2>
         <strong className="price-now" style={{ fontSize: "1.4rem" }}>
-          ¥{payable}
+          ¥{receipt.amount}
         </strong>
-        <div className="success-order">订单编号 OM2026{String(Date.now()).slice(-6)} · {PAY_METHODS.find((m) => m.key === pay)?.label}</div>
+        <div className="success-order">订单编号 {receipt.orderNo} · {receipt.payLabel}</div>
         <p className="muted" style={{ fontSize: "0.82rem" }}>
-          🚚 预计 48 小时内发货　·　🎁 获得 {payable} 积分
+          🚚 预计 48 小时内发货　·　🎁 获得 {receipt.amount} 积分
         </p>
         <p className="muted" style={{ fontSize: "0.78rem" }}>
           这是 CloudBase 静态 MVP 的下单模拟，未接入真实支付与后端。
@@ -144,7 +144,11 @@ export function Checkout() {
         <button
           className="btn btn-primary"
           onClick={() => {
-            setSubmitted(true);
+            setReceipt({
+              amount: payable,
+              payLabel: PAY_METHODS.find((m) => m.key === pay)?.label ?? "模拟支付",
+              orderNo: `OM2026${String(Date.now()).slice(-6)}`,
+            });
             clear();
             showToast("模拟支付成功");
           }}

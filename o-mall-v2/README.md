@@ -8,6 +8,7 @@
 
 - pnpm workspace monorepo
 - `artifacts/web` Vite + React 前端（**完整商城**：首页/商品列表/分类/详情(Tab)/我的/购物车/结算 + 企业·技术·公益·护肝知识·健康评测·产品功能内容页，hash 路由）
+- 前端 AI 健康顾问入口（底部导航中间按钮）：未配置代理时基于本地商品库回答；配置 `VITE_AI_PROXY_URL` 后可走自有后端/云函数代理
 - `artifacts/api-server` Express API 服务
 - `GET /health` 健康检查接口
 - `lib/db` Drizzle/PostgreSQL 数据库包
@@ -160,11 +161,20 @@ GET /health
 
 ```text
 DATABASE_URL=postgresql://localhost:5432/omall
+VITE_SUPABASE_URL=https://<project-ref>.supabase.co
+VITE_SUPABASE_ANON_KEY=<anon-public-key>
+# VITE_AI_PROXY_URL=https://<your-api-domain>/api/ai/omall-chat
+# SUPABASE_ACCESS_TOKEN=sbp_xxx
+# SUPABASE_PROJECT_REF=<project-ref>
 PORT=3000
 NODE_ENV=development
 ```
 
 不要把真实生产密钥或数据库密码提交到仓库。
+
+远端商品下架说明：`lib/db/sql/002_remove_discontinued_products.sql` 用于删除已下架商品 `p4/p5` 及其评价；运行 `lib/db/seed.ts` 时也会先删除 `DISCONTINUED_PRODUCT_IDS` 中的商品，避免本地 seed 后远端残留。
+
+AI 相关注意：不要把模型供应商密钥写进前端 `.env`。如果要接真实大模型，请在 `artifacts/api-server`、CloudBase 云函数或自有后端里保存密钥，再把前端的 `VITE_AI_PROXY_URL` 指向这个代理。
 
 ## Trellis
 

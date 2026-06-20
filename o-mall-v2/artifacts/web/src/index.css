@@ -3348,6 +3348,7 @@ button {
   width: min(var(--maxw), calc(100% - 1rem));
   border-radius: 999px;
   height: 62px;
+  overflow: visible;
 }
 
 .navicon {
@@ -3362,6 +3363,39 @@ button {
 .navitem.active .navicon {
   background: var(--c-primary);
   color: #fff;
+}
+
+.ai-navitem {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #7b5d17;
+  transform: translateY(-0.55rem);
+}
+
+.ai-nav-orb {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff7df;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.48), transparent 34%),
+    linear-gradient(135deg, #e5b95c 0%, #1b5c4a 72%);
+  border: 1px solid rgba(255, 255, 255, 0.74);
+  box-shadow:
+    0 18px 34px rgba(85, 64, 18, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58);
+  font-size: 0.86rem;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.ai-navlabel {
+  margin-top: -0.1rem;
+  font-size: 0.68rem;
+  font-weight: 800;
 }
 
 .hero,
@@ -3572,6 +3606,38 @@ button {
   font-size: 0.72rem;
 }
 
+.service-strip button,
+.hero-ai-btn,
+.ai-soft-action {
+  border: var(--hairline);
+  cursor: pointer;
+  color: #7b5d17;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(255, 243, 204, 0.74)),
+    rgba(198, 154, 66, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.service-strip button {
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.hero-ai-btn {
+  color: #fff8df;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.22), transparent 40%),
+    linear-gradient(135deg, rgba(229, 185, 92, 0.94), rgba(27, 92, 74, 0.9));
+}
+
 .checkout-address,
 .coupon-entry {
   width: 100%;
@@ -3672,6 +3738,17 @@ button {
   box-shadow: 0 -24px 60px rgba(18, 65, 49, 0.22);
   padding: 0.7rem 1rem 1rem;
   margin-bottom: 0.5rem;
+}
+
+.ai-sheet {
+  height: min(84vh, 760px);
+  max-height: min(84vh, 760px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(242, 248, 245, 0.78)),
+    rgba(255, 255, 255, 0.82);
 }
 
 .sheet-handle {
@@ -3827,6 +3904,283 @@ button {
   letter-spacing: 0;
 }
 
+.ai-assistant {
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: 0.8rem;
+  overflow: hidden;
+}
+
+.ai-context-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border-radius: 22px;
+  border: var(--hairline);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(235, 246, 240, 0.68)),
+    rgba(255, 255, 255, 0.7);
+}
+
+.ai-context-orb {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  color: #fff7df;
+  background: linear-gradient(135deg, #d7a847, #1b5c4a);
+  font-weight: 900;
+}
+
+.ai-context-card b,
+.ai-recos-title {
+  display: block;
+  color: var(--c-primary-dark);
+  font-size: 0.92rem;
+}
+
+.ai-context-card span:not(.ai-context-orb) {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--c-muted);
+  font-size: 0.76rem;
+}
+
+.ai-chat {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.15rem 0.1rem 0.85rem;
+  scroll-padding-bottom: 0.85rem;
+}
+
+.ai-msg {
+  width: fit-content;
+  max-width: 86%;
+  padding: 0.72rem 0.82rem;
+  border-radius: 18px;
+  border: var(--hairline);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 10px 24px rgba(30, 78, 57, 0.08);
+  color: #26352d;
+  font-size: 0.84rem;
+  line-height: 1.7;
+}
+
+.ai-msg.user {
+  align-self: flex-end;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(27, 92, 74, 0.96), rgba(9, 40, 31, 0.94));
+}
+
+.ai-msg.assistant {
+  align-self: flex-start;
+}
+
+.ai-msg:last-child {
+  margin-bottom: 0.2rem;
+}
+
+.ai-msg p + p {
+  margin-top: 0.45rem;
+}
+
+.ai-source {
+  display: inline-flex;
+  margin-top: 0.55rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  color: var(--c-primary);
+  background: rgba(27, 92, 74, 0.08);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.ai-typing {
+  display: inline-flex;
+  gap: 0.28rem;
+  align-items: center;
+}
+
+.ai-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-primary);
+  animation: aiDot 0.9s ease-in-out infinite;
+}
+
+.ai-typing span:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.ai-typing span:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+@keyframes aiDot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.ai-recos {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+  padding: 0.58rem;
+  border-radius: 22px;
+  border: var(--hairline);
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.ai-reco-list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(224px, 1fr);
+  gap: 0.55rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 0.08rem;
+}
+
+.ai-reco-card {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 0.45rem 0.6rem;
+  align-items: center;
+  scroll-snap-align: start;
+  padding: 0.55rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.48);
+}
+
+.ai-reco-card img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 15px;
+  background: var(--c-cream);
+}
+
+.ai-reco-main {
+  min-width: 0;
+}
+
+.ai-reco-main b,
+.ai-reco-main span {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ai-reco-main b {
+  color: var(--c-primary-dark);
+  font-size: 0.84rem;
+}
+
+.ai-reco-main span {
+  color: var(--c-muted);
+  font-size: 0.72rem;
+}
+
+.ai-reco-main strong {
+  display: block;
+  margin-top: 0.1rem;
+  color: var(--c-price);
+  font-size: 0.82rem;
+}
+
+.ai-reco-actions {
+  grid-column: 2;
+  display: flex;
+  gap: 0.35rem;
+  justify-content: flex-end;
+}
+
+.ai-reco-actions .mini-btn {
+  padding: 0.42rem 0.58rem;
+  font-size: 0.72rem;
+}
+
+.ai-light-btn {
+  color: var(--c-primary);
+  background: rgba(27, 92, 74, 0.08);
+}
+
+.ai-prompts {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding-bottom: 0.1rem;
+}
+
+.ai-prompts button {
+  flex-shrink: 0;
+  border: var(--hairline);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--c-primary);
+  padding: 0.42rem 0.68rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ai-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.55rem;
+  padding: 0.5rem;
+  border-radius: 999px;
+  border: var(--hairline);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.ai-form input {
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  padding: 0 0.35rem;
+  color: var(--c-text);
+}
+
+.ai-form button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ai-form button:disabled,
+.ai-prompts button:disabled {
+  opacity: 0.48;
+  cursor: default;
+}
+
 @media (max-width: 640px) {
   .topbar {
     border-radius: 22px;
@@ -3858,5 +4212,47 @@ button {
 
   .toast {
     bottom: calc(var(--nav-h) + 1.2rem);
+  }
+
+  .ai-nav-orb {
+    width: 56px;
+    height: 56px;
+  }
+
+  .ai-sheet {
+    width: calc(100% - 0.65rem);
+    height: min(86vh, 760px);
+    max-height: min(86vh, 760px);
+    padding-inline: 0.8rem;
+  }
+
+  .ai-assistant {
+    gap: 0.68rem;
+  }
+
+  .ai-context-card {
+    padding: 0.72rem;
+  }
+
+  .ai-msg {
+    max-width: 92%;
+  }
+
+  .ai-reco-list {
+    grid-auto-columns: minmax(218px, 82%);
+  }
+
+  .ai-reco-card {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  .ai-reco-card img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .ai-reco-actions {
+    grid-column: 2;
+    justify-content: flex-end;
   }
 }
