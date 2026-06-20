@@ -1,6 +1,6 @@
 // 一次性 seed 脚本：把 web 本地数据写入 Supabase（经 Management API，令牌鉴权）
-// 运行：SUPABASE_PAT=sbp_xxx node_modules/.bin/tsx lib/db/seed.ts   （从 o-mall-v2/ 执行）
-import { CATEGORIES, PRODUCTS } from "../../artifacts/web/src/data/catalog.ts";
+// 运行：SUPABASE_ACCESS_TOKEN=sbp_xxx SUPABASE_PROJECT_REF=<ref> pnpm --filter @o-mall/db run seed
+import { CATEGORIES, DISCONTINUED_PRODUCT_IDS, PRODUCTS } from "../../artifacts/web/src/data/catalog.ts";
 import {
   COMPANY,
   TECH,
@@ -13,10 +13,10 @@ import {
   ASSESS_GRADE_DESC,
 } from "../../artifacts/web/src/data/content.ts";
 
-const REF = "fmgqjbxydgxwhjrrhwxi";
-const PAT = process.env.SUPABASE_PAT;
+const REF = process.env.SUPABASE_PROJECT_REF || "fmgqjbxydgxwhjrrhwxi";
+const PAT = process.env.SUPABASE_ACCESS_TOKEN || process.env.SUPABASE_PAT;
 if (!PAT) {
-  console.error("缺少 SUPABASE_PAT 环境变量");
+  console.error("缺少 SUPABASE_ACCESS_TOKEN 或 SUPABASE_PAT 环境变量");
   process.exit(1);
 }
 
@@ -26,6 +26,12 @@ const num = (n: unknown) => (n === undefined || n === null ? "NULL" : String(n))
 const j = (o: unknown) => "'" + JSON.stringify(o).replace(/'/g, "''") + "'::jsonb";
 
 const stmts: string[] = [];
+const discontinuedIds = [...DISCONTINUED_PRODUCT_IDS];
+if (discontinuedIds.length) {
+  const ids = discontinuedIds.map(q).join(",");
+  stmts.push(`delete from reviews where product_id in (${ids});`);
+  stmts.push(`delete from products where id in (${ids});`);
+}
 
 // 分类
 const catVals = CATEGORIES.map(

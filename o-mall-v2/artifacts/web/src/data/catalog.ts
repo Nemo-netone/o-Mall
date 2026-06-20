@@ -20,6 +20,8 @@ export const CATEGORIES: Category[] = [
   { id: "gift", title: "礼盒专区", subtitle: "甄选礼盒·健康心意", icon: "🎁" },
 ];
 
+export const DISCONTINUED_PRODUCT_IDS = new Set(["p4", "p5"]);
+
 export const PRODUCTS: Product[] = [
   {
     id: "p2",
@@ -120,99 +122,6 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    id: "p4",
-    name: "肽源精萃® 小麦低聚肽精华饮",
-    badge: "新品",
-    summary: "每日一瓶，内调底层营养",
-    spec: "规格 30ml/瓶 × 8瓶",
-    tags: ["小分子肽", "0蔗糖", "果味顺口"],
-    price: 168,
-    originalPrice: 198,
-    image: "/images/product_essence.png",
-    categoryId: "peptide",
-    theme: "#6a4c93",
-    sales: "420+",
-    repurchase: "55%",
-    features: [
-      { icon: "🫐", title: "蓝莓果味", desc: "顺口好喝" },
-      { icon: "✨", title: "小分子肽", desc: "易吸收" },
-      { icon: "🍃", title: "0蔗糖", desc: "无负担" },
-    ],
-    suitable: ["注重日常保养人群", "追求口感的年轻群体", "需要长期内调人群"],
-    steps: [
-      "取 1 瓶摇匀。",
-      "常温或冰镇后饮用风味更佳。",
-      "每日 1 瓶，建议固定时段。",
-      "可作为日常营养补充长期服用。",
-    ],
-    certs: ["SC食品生产许可", "第三方检测报告"],
-    ingredientTable: [
-      { name: "小麦低聚肽", amount: "1200mg", effect: "底层营养" },
-      { name: "胶原蛋白肽", amount: "800mg", effect: "弹润支持" },
-      { name: "蓝莓浓缩汁", amount: "适量", effect: "花青素·风味" },
-      { name: "维生素C", amount: "60mg", effect: "抗氧化" },
-      { name: "烟酰胺", amount: "适量", effect: "亮泽支持" },
-    ],
-    params: [
-      { label: "肽含量", value: "2000mg/瓶", highlight: true },
-      { label: "蔗糖", value: "0添加", highlight: true },
-      { label: "剂型", value: "精华饮" },
-      { label: "规格", value: "30ml/瓶 × 8瓶" },
-      { label: "保质期", value: "12个月" },
-    ],
-    usage: "每日 1 瓶，常温或冰镇后饮用风味更佳；可作为日常营养补充长期服用。",
-    ingredients: "小麦低聚肽、胶原蛋白肽、蓝莓浓缩汁、维生素C、烟酰胺。",
-    reviews: [
-      { user: "周**", rating: 5, text: "果味的，比想象好喝，坚持喝看看。", date: "2026-06-02", tag: "新客" },
-      { user: "吴**", rating: 5, text: "新品尝鲜，包装很精致，送礼也合适。", date: "2026-05-18" },
-    ],
-  },
-  {
-    id: "p5",
-    name: "元气肽® 多维营养胶囊",
-    summary: "一粒多维，日常营养随身补",
-    spec: "规格 0.5g/粒 × 60粒",
-    tags: ["多维营养", "小粒易吞", "60天量"],
-    price: 128,
-    image: "/images/product_capsules.png",
-    categoryId: "nutrition",
-    theme: "#2f6a52",
-    sales: "1,580+",
-    repurchase: "72%",
-    features: [
-      { icon: "💊", title: "小粒易吞", desc: "0.5g/粒" },
-      { icon: "🗓️", title: "60天量", desc: "随身补给" },
-      { icon: "🧬", title: "多维配方", desc: "A/C/E/B族" },
-    ],
-    suitable: ["三餐不规律人群", "需要日常营养补充的全家人", "外食偏多人群"],
-    steps: [
-      "每日 2 粒。",
-      "温水送服，建议随餐服用。",
-      "请按推荐量食用，不超过推荐量。",
-    ],
-    certs: ["SC食品生产许可", "保健食品备案", "第三方检测报告"],
-    ingredientTable: [
-      { name: "小麦低聚肽", amount: "500mg", effect: "营养基底" },
-      { name: "复合维生素", amount: "适量", effect: "A/C/E/B族" },
-      { name: "锌", amount: "5mg", effect: "免疫支持" },
-      { name: "硒", amount: "适量", effect: "抗氧化" },
-      { name: "牛磺酸", amount: "适量", effect: "活力支持" },
-    ],
-    params: [
-      { label: "维生素种类", value: "11种", highlight: true },
-      { label: "每瓶用量", value: "60天", highlight: true },
-      { label: "剂型", value: "胶囊" },
-      { label: "规格", value: "0.5g/粒 × 60粒" },
-      { label: "保质期", value: "24个月" },
-    ],
-    usage: "每日 2 粒，温水送服，建议随餐服用；请按推荐量食用，不超过推荐量。",
-    ingredients: "小麦低聚肽、复合维生素（A/C/E/B族）、锌、硒、牛磺酸。",
-    reviews: [
-      { user: "郑**", rating: 4, text: "胶囊不大好吞咽，性价比可以。", date: "2026-05-25" },
-      { user: "冯**", rating: 5, text: "全家都在吃的日常补充，方便。", date: "2026-04-30", tag: "回购用户" },
-    ],
-  },
-  {
     id: "p6",
     name: "肽配膳道® 益生菌固体饮料礼盒",
     badge: "礼盒",
@@ -307,9 +216,9 @@ export const PRODUCTS: Product[] = [
 ];
 
 export const FEATURE_CARDS: FeatureCard[] = [
-  { id: "fc1", title: "肽产品专区", subtitle: "科技肽能·精准滋养", cta: "进入专区", image: "/images/product_essence.png", href: "/products?cat=peptide" },
+  { id: "fc1", title: "低聚肽专区", subtitle: "高F值肽·液态直吸", cta: "进入专区", image: "/images/product_oral.png", href: "/products?cat=liver" },
   { id: "fc2", title: "护肝专区", subtitle: "多维守护·肝净身轻", cta: "进入专区", image: "/images/product_granule.png", href: "/products?cat=liver" },
-  { id: "fc3", title: "营养调理", subtitle: "均衡营养·内调外养", cta: "进入专区", image: "/images/product_capsules.png", href: "/products?cat=nutrition" },
+  { id: "fc3", title: "益生菌礼盒", subtitle: "肠道养护·营养吸收", cta: "进入专区", image: "/images/gift_box.png", href: "/products?cat=gift" },
   { id: "fc4", title: "会员权益", subtitle: "专享礼遇·健康相伴", cta: "立即查看", image: "/images/vip_card.png", href: "/profile" },
 ];
 
@@ -404,7 +313,7 @@ export const COUPONS = [
 export const ORDER_PREVIEW = [
   { id: "om-260618", title: "肽润肝清® 护肝醒酒冲剂", status: "待发货", amount: "¥135" },
   { id: "om-260602", title: "肽配膳道® 益生菌礼盒", status: "已完成", amount: "¥138" },
-  { id: "om-260521", title: "元气肽丸® 多维营养胶囊", status: "待评价", amount: "¥128" },
+  { id: "om-260521", title: "珀珀肝宁® 高F值小麦低聚肽口服液", status: "待评价", amount: "¥199" },
 ] as const;
 
 export function getProduct(id: string): Product | undefined {

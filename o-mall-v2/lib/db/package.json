@@ -8,6 +8,7 @@
   },
   "scripts": {
     "push": "drizzle-kit push",
+    "seed": "tsx seed.ts",
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
@@ -17,6 +18,8 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.29.1"
+    "@types/node": "catalog:",
+    "drizzle-kit": "^0.29.1",
+    "tsx": "catalog:"
   }
 }

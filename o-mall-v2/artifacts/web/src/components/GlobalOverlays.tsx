@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { COUPONS, ORDER_PREVIEW } from "../data/catalog";
 import { useCatalog } from "../state/catalog";
 import { useShopUi } from "../state/shop-ui";
+import { AiAssistant } from "./AiAssistant";
 
 function SheetContent() {
   const {
@@ -13,9 +14,14 @@ function SheetContent() {
     selectedAddress,
     selectAddress,
     favorites,
+    showToast,
   } = useShopUi();
   const { products } = useCatalog();
   if (!sheet) return null;
+
+  if (sheet.type === "ai") {
+    return <AiAssistant productName={sheet.productName} />;
+  }
 
   if (sheet.type === "coupons") {
     return (
@@ -153,7 +159,13 @@ function SheetContent() {
       <div className="sheet-list">
         <p className="sheet-sub">分享活动为静态演示，可用于展示商城转化路径。</p>
         <div className="share-code">OMALL2026</div>
-        <button className="mini-btn full" onClick={() => navigator.clipboard?.writeText("OMALL2026")}>
+        <button
+          className="mini-btn full"
+          onClick={() => {
+            void navigator.clipboard?.writeText("OMALL2026");
+            showToast("分享码已复制");
+          }}
+        >
           复制分享码
         </button>
       </div>
@@ -163,7 +175,13 @@ function SheetContent() {
   return (
     <div className="sheet-list">
       <p className="sheet-sub">会员权益包括专属折扣、优先发货、健康顾问和新品试用。</p>
-      <button className="mini-btn full" onClick={closeSheet}>
+      <button
+        className="mini-btn full"
+        onClick={() => {
+          showToast("已开通演示会员");
+          closeSheet();
+        }}
+      >
         开通演示会员
       </button>
     </div>
@@ -183,7 +201,11 @@ export function GlobalOverlays() {
 
       {sheet && (
         <div className="sheet-backdrop" onClick={closeSheet}>
-          <section className="glass-sheet" onClick={(event) => event.stopPropagation()} aria-label={sheet.title ?? "操作面板"}>
+          <section
+            className={sheet.type === "ai" ? "glass-sheet ai-sheet" : "glass-sheet"}
+            onClick={(event) => event.stopPropagation()}
+            aria-label={sheet.title ?? "操作面板"}
+          >
             <div className="sheet-handle" />
             <div className="sheet-head">
               <h3>{sheet.title ?? "操作面板"}</h3>
