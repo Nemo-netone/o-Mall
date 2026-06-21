@@ -1,8 +1,7 @@
 import { CHARITY } from "../data/content";
 
 export function Charity() {
-  const { banner, stats, wheat, actions, provinces, progress, farmers, footer, headerSub } = CHARITY;
-  const pct = Math.round((progress.current / progress.target) * 100);
+  const { banner, stats, wheat, actions, headerSub } = CHARITY;
 
   return (
     <div className="page">
@@ -62,67 +61,6 @@ export function Charity() {
           </div>
         ))}
       </section>
-
-      {/* 合作基地分布 */}
-      <section className="cblock">
-        <h3>合作基地分布</h3>
-        {provinces.map((p) => (
-          <div key={p.name} className="province-row">
-            <div className="row-main">
-              <b>{p.name}</b>
-              <span>{p.cities}</span>
-            </div>
-            <span className="province-count">{p.count}</span>
-            <span className="province-unit">个</span>
-          </div>
-        ))}
-      </section>
-
-      {/* 本月助农进度 */}
-      <section className="cblock">
-        <div className="cblock-head">
-          <h3>本月助农进度</h3>
-          <span className="more-link">
-            {progress.current.toLocaleString()} / {progress.target.toLocaleString()}份
-          </span>
-        </div>
-        <div className="maturity-track" style={{ height: 10 }}>
-          <div className="progress-fill" style={{ width: `${pct}%` }} />
-        </div>
-        <p className="hint">{progress.note}</p>
-        <div className="stat3" style={{ marginTop: "0.8rem" }}>
-          {progress.stats.map((s) => (
-            <div key={s.label} className="stat3-item">
-              <b>{s.value}</b>
-              <span>{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 来自麦农的故事 */}
-      <section className="cblock">
-        <h3>来自麦农的故事</h3>
-        {farmers.map((f) => (
-          <div key={f.name} className="farmer">
-            <div className="farmer-head">
-              <span className="person-avatar" aria-hidden="true">
-                {f.name.slice(0, 1)}
-              </span>
-              <div className="row-main">
-                <div className="person-name">
-                  {f.name}
-                  <span className="person-tag">合作{f.years}年</span>
-                </div>
-                <span>{f.area}</span>
-              </div>
-            </div>
-            <div className="story-bubble">{f.story}</div>
-          </div>
-        ))}
-      </section>
-
-      <div className="warm-footer">❤ {footer}</div>
     </div>
   );
 }

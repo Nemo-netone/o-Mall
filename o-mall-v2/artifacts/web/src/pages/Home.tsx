@@ -5,6 +5,16 @@ import { ProductCard } from "../components/ProductCard";
 import { SectionHeader } from "../components/SectionHeader";
 import { TrustBadges } from "../components/TrustBadges";
 import { useShopUi } from "../state/shop-ui";
+import { AppIcon, type AppIconName } from "../components/AppIcon";
+
+const QUICK_NAV_ICONS: Record<string, AppIconName> = {
+  "/health-assessment": "stethoscope",
+  "/knowledge": "book",
+  "/functions": "sparkle",
+  "/company": "building",
+  "/tech": "flask",
+  "/charity": "wheat",
+};
 
 export function Home() {
   const { products } = useCatalog();
@@ -21,9 +31,6 @@ export function Home() {
           <div className="hero-rule" />
           <p className="hero-sub">{HERO.subtitle}</p>
           <div className="hero-actions">
-            <Link href={HERO.href} className="btn btn-gold">
-              {HERO.cta}
-            </Link>
             <button className="btn hero-ai-btn" onClick={() => openSheet({ type: "ai", title: "AI 健康顾问" })}>
               AI 帮我选
             </button>
@@ -55,7 +62,10 @@ export function Home() {
               <div className="feature-mask">
                 <h3>{f.title}</h3>
                 <p>{f.subtitle}</p>
-                <span className="feature-cta">{f.cta}</span>
+                <span className="feature-cta">
+                  {f.cta}
+                  <AppIcon name="arrow-up-right" size={13} />
+                </span>
               </div>
             </Link>
           ))}
@@ -69,7 +79,7 @@ export function Home() {
           {QUICK_NAV.map((q) => (
             <Link key={q.href} href={q.href} className="quicknav-item">
               <span className="quicknav-ico" style={{ background: q.bg, color: q.color }} aria-hidden="true">
-                {q.icon}
+                <AppIcon name={QUICK_NAV_ICONS[q.href] ?? "sparkle"} size={24} />
               </span>
               <span className="quicknav-label">{q.label}</span>
             </Link>

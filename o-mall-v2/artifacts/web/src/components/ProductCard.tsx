@@ -3,6 +3,7 @@ import type { Product } from "../types";
 import { formatPrice } from "../data/catalog";
 import { useCart } from "../state/cart";
 import { useShopUi } from "../state/shop-ui";
+import { AppIcon } from "./AppIcon";
 
 export function ProductCard({ product }: { product: Product }) {
   const { add } = useCart();
@@ -16,7 +17,7 @@ export function ProductCard({ product }: { product: Product }) {
         {product.badge && <span className="tag-badge">{product.badge}</span>}
       </Link>
       <button className={favorite ? "favorite-dot active" : "favorite-dot"} onClick={() => toggleFavorite(product)} aria-label="收藏商品">
-        {favorite ? "★" : "☆"}
+        <AppIcon name={favorite ? "heart-filled" : "heart"} size={18} />
       </button>
       <div className="product-body">
         <Link href={`/product/${product.id}`} className="product-name">

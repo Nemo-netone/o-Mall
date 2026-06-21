@@ -1,22 +1,21 @@
 import { Link, useLocation } from "wouter";
 import { useState, type FormEvent, type ReactNode } from "react";
 import { useCart } from "../state/cart";
-import { useCatalog } from "../state/catalog";
 import { useShopUi } from "../state/shop-ui";
+import { AppIcon, type AppIconName } from "./AppIcon";
 import { BrandSeal, BrandLockup } from "./Brand";
 import { GlobalOverlays } from "./GlobalOverlays";
 
-const NAV = [
-  { href: "/", label: "首页", icon: "⌂" },
-  { href: "/category", label: "分类", icon: "◇" },
-  { href: "/cart", label: "购物车", icon: "▣" },
-  { href: "/profile", label: "我的", icon: "◎" },
+const NAV: { href: string; label: string; icon: AppIconName }[] = [
+  { href: "/", label: "首页", icon: "home" },
+  { href: "/category", label: "分类", icon: "grid" },
+  { href: "/cart", label: "购物车", icon: "cart" },
+  { href: "/profile", label: "我的", icon: "user" },
 ];
 
 export function Layout({ children }: { children: ReactNode }) {
   const [location, navigate] = useLocation();
   const { count } = useCart();
-  const { source, loading } = useCatalog();
   const { openSheet } = useShopUi();
   const [query, setQuery] = useState("");
 
@@ -34,7 +33,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <BrandLockup />
         </Link>
         <form className="topbar-search" onSubmit={submitSearch}>
-          <span aria-hidden="true">⌕</span>
+          <AppIcon name="search" size={17} />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -42,9 +41,9 @@ export function Layout({ children }: { children: ReactNode }) {
             aria-label="搜索商品"
           />
         </form>
-        <span className="source-pill">{loading ? "同步中" : source === "remote" ? "Supabase" : "本地数据"}</span>
         <Link href="/cart" className="topbar-cart" aria-label="购物车">
-          ▣{count > 0 && <span className="badge">{count}</span>}
+          <AppIcon name="cart" size={19} />
+          {count > 0 && <span className="badge">{count}</span>}
         </Link>
       </header>
 
@@ -56,7 +55,7 @@ export function Layout({ children }: { children: ReactNode }) {
           return (
             <Link key={n.href} href={n.href} className={active ? "navitem active" : "navitem"}>
               <span className="navicon" aria-hidden="true">
-                {n.icon}
+                <AppIcon name={n.icon} size={18} />
               </span>
               <span className="navlabel">{n.label}</span>
               {n.href === "/cart" && count > 0 && <span className="navbadge">{count}</span>}
@@ -78,7 +77,7 @@ export function Layout({ children }: { children: ReactNode }) {
           return (
             <Link key={n.href} href={n.href} className={active ? "navitem active" : "navitem"}>
               <span className="navicon" aria-hidden="true">
-                {n.icon}
+                <AppIcon name={n.icon} size={18} />
               </span>
               <span className="navlabel">{n.label}</span>
               {n.href === "/cart" && count > 0 && <span className="navbadge">{count}</span>}

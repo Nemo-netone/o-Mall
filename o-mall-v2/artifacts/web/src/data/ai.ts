@@ -43,18 +43,18 @@ const SCENARIO_RULES = [
   },
   {
     keys: ["肠胃", "肠道", "消化", "益生菌", "吸收", "礼盒", "送礼", "父母", "长辈"],
-    productIds: ["p6", "p2"],
-    intro: "如果是长辈、送礼或肠道吸收场景，益生菌礼盒会更贴近需求。",
+    productIds: ["p2", "p3"],
+    intro: "如果是长辈、送礼场景，护肝冲剂和口服液都是不错的选择。",
   },
   {
     keys: ["维生素", "营养", "胶囊", "日常", "全家", "补充"],
-    productIds: ["p6", "p2"],
-    intro: "目前没有胶囊类产品在售；如果是日常营养补充，可优先看益生菌礼盒和护肝冲剂。",
+    productIds: ["p2", "p3"],
+    intro: "如果是日常营养补充，可优先看护肝冲剂和口服液。",
   },
   {
     keys: ["美容", "蓝莓", "胶原", "精华", "肽饮", "年轻", "好喝"],
-    productIds: ["p3", "p6"],
-    intro: "目前没有精华饮类产品在售；如果想要低聚肽补给，可优先看开盖即饮的口服液。",
+    productIds: ["p3", "p2"],
+    intro: "如果想要低聚肽补给，可优先看开盖即饮的口服液。",
   },
   {
     keys: ["企业", "采购", "原料", "定制", "代工", "oem"],
@@ -167,12 +167,14 @@ function normalizeProxyReply(data: unknown, products: Product[]): AiReply | null
 
 async function askProxy(input: AskAiInput): Promise<AiReply | null> {
   const endpoint = import.meta.env.VITE_AI_PROXY_URL?.trim();
-  if (!endpoint) return null;
+  const apiUrl = endpoint || (import.meta.env.DEV ? "/api/ai/chat" : "");
+  if (!apiUrl) return null;
 
   const controller = new AbortController();
-  const timer = window.setTimeout(() => controller.abort(), 8000);
+  const timer = window.setTimeout(() => controller.abort(), 15000);
+
   try {
-    const response = await fetch(endpoint, {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       signal: controller.signal,
@@ -183,7 +185,11 @@ async function askProxy(input: AskAiInput): Promise<AiReply | null> {
         catalog: input.products.map(compactProduct),
       }),
     });
-    if (!response.ok) return null;
+
+    if (!response.ok) {
+      return null;
+    }
+
     return normalizeProxyReply(await response.json(), input.products);
   } catch {
     return null;

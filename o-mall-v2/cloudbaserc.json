@@ -1,0 +1,15 @@
+{
+  "$schema": "https://static.cloudbase.net/cli/cloudbaserc.schema.json",
+  "envId": "meta-d5gh4ds014005aff1",
+  "functionRoot": "functions",
+  "functions": [
+    {
+      "name": "omall-ai-chat",
+      "runtime": "Nodejs20.19",
+      "handler": "index.main",
+      "timeout": 20,
+      "memorySize": 256,
+      "description": "O-Mall AI chat proxy. SILICONFLOW_API_KEY must be set in the cloud function environment."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "buildCommand": "cd artifacts/web && pnpm install && pnpm run build",
+  "outputDirectory": "artifacts/web/dist",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

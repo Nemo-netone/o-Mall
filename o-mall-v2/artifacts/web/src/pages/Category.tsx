@@ -2,6 +2,16 @@ import { Link } from "wouter";
 import { useCatalog } from "../state/catalog";
 import { ProductCard } from "../components/ProductCard";
 import { SectionHeader } from "../components/SectionHeader";
+import { AppIcon, type AppIconName } from "../components/AppIcon";
+
+const CATEGORY_ICONS: Record<string, AppIconName> = {
+  peptide: "droplet",
+  liver: "shield",
+  food: "package",
+  nutrition: "heart",
+  herbal: "leaf",
+  gift: "gift",
+};
 
 export function Category() {
   const { products, categories } = useCatalog();
@@ -19,7 +29,7 @@ export function Category() {
           {categories.map((c) => (
             <Link key={c.id} href={`/products?cat=${c.id}`} className="quicknav-item">
               <span className="quicknav-ico" style={{ background: "var(--c-jade)" }} aria-hidden="true">
-                {c.icon}
+                <AppIcon name={CATEGORY_ICONS[c.id] ?? "package"} size={24} />
               </span>
               <span className="quicknav-label">{c.title}</span>
             </Link>

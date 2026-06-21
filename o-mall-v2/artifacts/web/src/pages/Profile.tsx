@@ -3,25 +3,35 @@ import { VIP_BENEFITS } from "../data/catalog";
 import { useCart } from "../state/cart";
 import { useShopUi, type SheetType } from "../state/shop-ui";
 import { TrustBadges } from "../components/TrustBadges";
+import { AppIcon, type AppIconName } from "../components/AppIcon";
 
 const ORDER_ICONS = [
-  { label: "待付款", icon: "¥", badge: 2, status: "待付款" },
-  { label: "待发货", icon: "□", badge: 1, status: "待发货" },
-  { label: "待收货", icon: "↗", badge: 1, status: "待收货" },
-  { label: "已完成", icon: "✓", status: "已完成" },
-];
+  { label: "待付款", icon: "wallet", badge: 2, status: "待付款" },
+  { label: "待发货", icon: "package", badge: 1, status: "待发货" },
+  { label: "待收货", icon: "truck", badge: 1, status: "待收货" },
+  { label: "已完成", icon: "check", status: "已完成" },
+] satisfies { label: string; icon: AppIconName; badge?: number; status: string }[];
 
 const SERVICES = [
-  { label: "AI顾问", icon: "AI", type: "ai" },
-  { label: "我的优惠券", icon: "券", type: "coupons" },
-  { label: "我的收藏", icon: "★", type: "favorites" },
-  { label: "浏览记录", icon: "时", type: "history" },
-  { label: "地址管理", icon: "址", type: "address" },
-  { label: "售后服务", icon: "售", type: "service" },
-  { label: "客服中心", icon: "聊", type: "contact" },
-  { label: "分享有礼", icon: "礼", type: "share" },
-  { label: "会员权益", icon: "VIP", type: "vip" },
+  { label: "AI顾问", icon: "sparkle", type: "ai" },
+  { label: "我的优惠券", icon: "ticket", type: "coupons" },
+  { label: "我的收藏", icon: "heart", type: "favorites" },
+  { label: "浏览记录", icon: "clock", type: "history" },
+  { label: "地址管理", icon: "pin", type: "address" },
+  { label: "售后服务", icon: "shield", type: "service" },
+  { label: "客服中心", icon: "headset", type: "contact" },
+  { label: "分享有礼", icon: "gift", type: "share" },
+  { label: "会员权益", icon: "user", type: "vip" },
 ] as const;
+
+const VIP_ICONS: Record<string, AppIconName> = {
+  肽产品: "droplet",
+  护肝产品: "shield",
+  健康管理: "heart",
+  专属折扣: "ticket",
+  极速发货: "truck",
+  售后无忧: "headset",
+};
 
 function Tile({
   icon,
@@ -29,7 +39,7 @@ function Tile({
   badge,
   onClick,
 }: {
-  icon: string;
+  icon: AppIconName;
   label: string;
   badge?: number;
   onClick: () => void;
@@ -37,7 +47,7 @@ function Tile({
   return (
     <button className="oicon" onClick={onClick}>
       <span className="oicon-circle" aria-hidden="true">
-        {icon}
+        <AppIcon name={icon} size={20} />
       </span>
       <span>{label}</span>
       {badge ? <span className="navbadge">{badge}</span> : null}
@@ -54,7 +64,7 @@ export function Profile() {
       <section className="profile-hero">
         <div className="profile-user">
           <span className="profile-avatar" aria-hidden="true">
-            ◎
+            <AppIcon name="user" size={28} />
           </span>
           <div className="profile-user-info">
             <div className="profile-name">
@@ -133,7 +143,7 @@ export function Profile() {
           {VIP_BENEFITS.map((v) => (
             <button key={v.label} className="vip-item" onClick={() => openSheet({ type: "vip", title: v.label })}>
               <span className="vip-item-ico" aria-hidden="true">
-                {v.icon}
+                <AppIcon name={VIP_ICONS[v.label] ?? "gift"} size={20} />
               </span>
               <b>{v.label}</b>
               <span>{v.sub}</span>

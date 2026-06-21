@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { KNOWLEDGE_CATS, HOT_TAGS, ARTICLES } from "../data/content";
+import { KNOWLEDGE_CATS, ARTICLES } from "../data/content";
 import type { Article } from "../data/content";
 
 export function Knowledge() {
@@ -88,15 +88,6 @@ export function Knowledge() {
           placeholder="搜索文章标题、标签"
           aria-label="搜索文章"
         />
-      </div>
-
-      {/* 热标签 */}
-      <div className="know-tabs">
-        {HOT_TAGS.map((t) => (
-          <button key={t} className="chip-btn" onClick={() => setQuery(t.slice(1))}>
-            {t}
-          </button>
-        ))}
       </div>
 
       {/* 分类 */}
