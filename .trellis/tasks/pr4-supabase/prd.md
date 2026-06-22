@@ -7,10 +7,12 @@
 ## 背景与现状
 
 - 前端是 CloudBase 纯静态站（React + Vite + Wouter hash 路由），数据现在全在 `web/src/data/catalog.ts`、`content.ts`，图片打包在 `public/images/`。
-- `lib/db` 早已接入 Drizzle/PostgreSQL，但 schema 一直为空——本任务正式启用。
+- `lib/db` 早已接入 Drizzle/PostgreSQL；本任务已正式启用 schema，当前表为 `categories/products/reviews/content_pages`。
 - 用户已提供 Supabase Personal Access Token（管理令牌）；已 `supabase login`。
 - 现有 Supabase 项目：`Nemo-netone's Project`，ref `fmgqjbxydgxwhjrrhwxi`，新加坡区。
 - 已验证：Supabase Management API `/database/query` 可用令牌直接执行 SQL（建表/写数据**无需数据库密码**）。
+- 当前前端只运行时读取商品、分类、评价；内容页仍使用本地 `content.ts`。`content_pages` 已建表/seed，运行时读取后置。
+- 当前本地在售商品为 `p1/p2/p3`；`p4/p5/p6` 已加入 `DISCONTINUED_PRODUCT_IDS`，seed 前会先从远端删除这些下架商品及评价。
 
 ## 架构选型（关键决策）
 
@@ -26,7 +28,7 @@
 
 **阶段一（本任务）**
 1. 建表：`categories` / `products` / `reviews` / `content_pages`（+ RLS 公开只读）。
-2. seed：把本地 6 分类 / 6 商品 / 评价 / 6 内容页数据写入库。
+2. seed：把本地 6 分类 / 在售商品 / 评价 / 6 内容页数据写入库，并删除 `DISCONTINUED_PRODUCT_IDS` 中的下架商品。
 3. 前端：加 `@supabase/supabase-js` 客户端；商品/分类/评价**运行时从 Supabase 读取**，失败回退本地；加载/空/错状态完整。
 4. 构建 + 发布 CloudBase（构建期注入 `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`）。
 

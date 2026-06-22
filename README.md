@@ -1,6 +1,6 @@
 # o-Mall
 
-这是 O-Mall 商城重写项目的工作区。当前主线是把 `o-mall-v2/` 重构成一个可展示、可构建、可优先发布到 CloudBase 静态托管的商城 MVP。
+这是 O-Mall 商城重写项目的工作区。当前主线是 `o-mall-v2/`：一个已完成静态商城 MVP、已发布到 CloudBase 体验版，并已接入 Supabase 只读商品数据兜底机制的商城项目。
 
 ## 目录边界
 
@@ -20,10 +20,11 @@ o-Mall/
 当前主项目包含：
 
 - pnpm workspace monorepo
-- `artifacts/web`：Vite + React 商城前端，CloudBase 静态托管优先
-- `artifacts/api-server`：Express API 服务，目前已有 `GET /health`
-- `lib/db`：Drizzle/PostgreSQL 数据库包，后续接真实业务表
-- `lib/api-spec`：OpenAPI 合同包，后续接商品/订单 API
+- `artifacts/web`：Vite + React 商城前端，hash 路由，CloudBase 静态托管优先
+- `artifacts/api-server`：Express API 服务，已有健康检查和 AI 聊天代理
+- `functions/omall-ai-chat`：CloudBase HTTP 云函数版 AI 代理，密钥只放云函数环境变量
+- `lib/db`：Drizzle/PostgreSQL 数据库包，已定义商品、分类、评价、内容页表
+- `lib/api-spec`：OpenAPI 合同包，已记录健康检查和 AI 代理接口
 
 ## 参考项目
 
@@ -40,7 +41,7 @@ o-Mall/
 
 ## 当前方向
 
-阶段一先完成 CloudBase 静态 MVP：
+阶段一 CloudBase 静态 MVP 已完成并发布：
 
 1. 首页展示
 2. 商品列表
@@ -50,11 +51,21 @@ o-Mall/
 6. Web 构建
 7. CloudBase 静态托管发布
 
+线上体验版：
+
+```text
+https://meta-d5gh4ds014005aff1-1369167244.tcloudbaseapp.com
+```
+
+免费测试域名首次访问可能出现腾讯云“风险提醒”拦截页，绑定自有域名后可去掉。
+
 后续再推进：
 
-- Express 商品/订单 API
-- PostgreSQL 持久化
-- OpenAPI 合同完善
+- 绑定自有域名
+- 商品/购物车/订单 API
+- 真实支付与运营后台
+- 图片迁移到 Supabase Storage
+- 内容页运行时读库
 - 腾讯云 Linux 服务器部署
 
 ## 快速开始
@@ -93,3 +104,5 @@ cloudbase hosting deploy artifacts/web/dist -e <env-id>
 - `.trellis/spec/workspace/index.md`
 - `.trellis/tasks/pr1-omall-rewrite/prd.md`（当前任务目标与验收）
 - `.trellis/tasks/pr1-omall-rewrite/plan.md`（里程碑与进度看板，进度的单一事实源）
+- `.trellis/tasks/pr4-supabase/prd.md`（Supabase 数据增强目标与验收）
+- `.trellis/tasks/pr4-supabase/plan.md`（Supabase 进度与后置项）

@@ -5,6 +5,7 @@
   "functions": [
     {
       "name": "omall-ai-chat",
+      "type": "HTTP",
       "runtime": "Nodejs20.19",
       "handler": "index.main",
       "timeout": 20,
