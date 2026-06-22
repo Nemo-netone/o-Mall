@@ -3,8 +3,14 @@ import { Link } from "wouter";
 import { useCart } from "../state/cart";
 import { PAY_METHODS } from "../data/catalog";
 import { useShopUi } from "../state/shop-ui";
+import { AppIcon, type AppIconName } from "../components/AppIcon";
 
 const SHIP_FREE_AT = 299;
+const PAY_ICONS: Record<string, AppIconName> = {
+  wechat: "wallet",
+  alipay: "wallet",
+  bank: "wallet",
+};
 
 export function Checkout() {
   const { lines, selectedTotal, clear } = useCart();
@@ -23,7 +29,7 @@ export function Checkout() {
     return (
       <div className="page empty-state">
         <div className="success-icon" aria-hidden="true">
-          ✓
+          <AppIcon name="check" size={34} />
         </div>
         <h2>支付成功（模拟）</h2>
         <strong className="price-now" style={{ fontSize: "1.4rem" }}>
@@ -61,7 +67,7 @@ export function Checkout() {
       {/* 收货地址 */}
       <button className="checkout-card checkout-address" onClick={() => openSheet({ type: "address", title: "选择收货地址" })}>
         <div className="checkout-card-head">
-          <span aria-hidden="true">⌖</span>收货地址
+          <AppIcon name="pin" size={18} />收货地址
           <small>切换 ›</small>
         </div>
         <div className="address-row">
@@ -74,7 +80,7 @@ export function Checkout() {
       {/* 商品清单 */}
       <section className="checkout-card">
         <div className="checkout-card-head">
-          <span aria-hidden="true">📦</span>商品清单
+          <AppIcon name="package" size={18} />商品清单
         </div>
         {selected.map((l) => (
           <div key={l.product.id} className="order-line">
@@ -92,13 +98,13 @@ export function Checkout() {
       {/* 支付方式 */}
       <section className="checkout-card">
         <div className="checkout-card-head">
-          <span aria-hidden="true">💳</span>支付方式
+          <AppIcon name="wallet" size={18} />支付方式
         </div>
         <div className="pay-methods">
           {PAY_METHODS.map((m) => (
             <button key={m.key} className={pay === m.key ? "pay-method sel" : "pay-method"} onClick={() => setPay(m.key)}>
               <span className="pay-ico" style={{ background: m.color }} aria-hidden="true">
-                {m.icon}
+                <AppIcon name={PAY_ICONS[m.key] ?? "wallet"} size={17} />
               </span>
               <span className="pay-label">{m.label}</span>
               <span className="pay-radio" />
@@ -116,7 +122,7 @@ export function Checkout() {
       {/* 费用明细 */}
       <section className="checkout-card">
         <div className="checkout-card-head">
-          <span aria-hidden="true">🧾</span>费用明细
+          <AppIcon name="ticket" size={18} />费用明细
         </div>
         <div className="fee-row">
           <span className="fee-k">商品合计</span>

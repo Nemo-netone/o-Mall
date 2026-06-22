@@ -2,7 +2,6 @@
   "extends": "./tsconfig.base.json",
   "files": [],
   "references": [
-    { "path": "./lib/db" },
-    { "path": "./lib/api-spec" }
+    { "path": "./lib/db" }
   ]
 }

@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { FUNCTIONS_PAGE } from "../data/content";
+import { AppIcon, type AppIconName } from "../components/AppIcon";
+
+const SCENE_ICONS: AppIconName[] = ["shield", "sparkle", "leaf"];
+const DOSE_ICONS: AppIconName[] = ["droplet", "truck", "package", "flask"];
 
 export function Functions() {
   const { fHero, scenes, doseForms, brands, brandsNote, specs, qa } = FUNCTIONS_PAGE;
@@ -29,7 +33,8 @@ export function Functions() {
       <div className="pill-row" style={{ ["--theme" as string]: "var(--c-accent)", marginBottom: "0.9rem" }}>
         {scenes.map((s, i) => (
           <button key={s.label} className={i === si ? "seg-pill active" : "seg-pill"} onClick={() => setSi(i)}>
-            {s.icon} {s.label}
+            <AppIcon name={SCENE_ICONS[i] ?? "sparkle"} size={16} />
+            {s.label}
           </button>
         ))}
       </div>
@@ -49,7 +54,10 @@ export function Functions() {
             <span className="scene-value">{fn.dose}</span>
           </div>
         </div>
-        <div className="cycle-row">⏱ 使用周期：{fn.cycle}</div>
+        <div className="cycle-row">
+          <AppIcon name="clock" size={17} />
+          使用周期：{fn.cycle}
+        </div>
         <h4 style={{ margin: "0.2rem 0 0.6rem" }}>功能效果</h4>
         <ol className="steps">
           {fn.effects.map((e, i) => (
@@ -61,17 +69,20 @@ export function Functions() {
             </li>
           ))}
         </ol>
-        <div className="products-row">📦 推荐产品：{fn.products.join(" / ")}</div>
+        <div className="products-row">
+          <AppIcon name="package" size={17} />
+          推荐产品：{fn.products.join(" / ")}
+        </div>
       </section>
 
       {/* 四大剂型 */}
       <section className="cblock">
         <h3>四大剂型 · 覆盖全场景</h3>
         <div className="grid2">
-          {doseForms.map((d) => (
+          {doseForms.map((d, index) => (
             <div key={d.name} className="dose-cell">
               <span className="dose-ico" aria-hidden="true">
-                {d.icon}
+                <AppIcon name={DOSE_ICONS[index] ?? "package"} size={22} />
               </span>
               <b>{d.name}</b>
               <span className="dose-scene">{d.scene}</span>

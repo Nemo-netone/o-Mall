@@ -26,7 +26,7 @@ export function Company() {
     <div className="page">
       <header className="content-header">
         <span className="chip">企业简介</span>
-        <h1>国肽民安·肽护中华</h1>
+        <h1>一肽当先</h1>
         <p>{COMPANY.headerSub}</p>
       </header>
 
@@ -87,46 +87,6 @@ export function Company() {
           <Person key={m.name} p={m} />
         ))}
         <div className="note-box">ℹ {COMPANY.expertNote}</div>
-      </section>
-
-      {/* 团队核心成员 */}
-      <section className="cblock">
-        <h3>团队核心成员</h3>
-        <p className="cblock-sub">多专业在校大学生组成，分工明确、优势互补</p>
-        <div className="pill-row" style={{ marginBottom: "0.6rem" }}>
-          {COMPANY.teamMajors.map((m) => (
-            <span key={m} className="pill">
-              {m}
-            </span>
-          ))}
-        </div>
-        {COMPANY.team.map((m) => (
-          <div key={m.name} className="person">
-            <span className="person-avatar" aria-hidden="true">
-              {m.icon ?? m.name.slice(0, 1)}
-            </span>
-            <div className="person-main">
-              <div className="person-name">
-                {m.name}
-                <span className="person-tag">{m.title}</span>
-              </div>
-              <div className="person-title">{m.major}专业</div>
-              <div className="person-desc">{m.desc}</div>
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* 联系我们 */}
-      <section className="cblock">
-        <h3>联系我们</h3>
-        {COMPANY.contact.map((c) => (
-          <div key={c.label} className="contact-row">
-            <span aria-hidden="true">{c.icon}</span>
-            <span className="ck">{c.label}</span>
-            <span>{c.val}</span>
-          </div>
-        ))}
       </section>
     </div>
   );

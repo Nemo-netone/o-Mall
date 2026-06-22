@@ -25,7 +25,7 @@ function suggestedOpening(productName?: string): ChatMessage {
     role: "assistant",
     content: productName
       ? `我正在看「${productName}」。你可以问适用人群、怎么吃、和哪些商品搭配。`
-      : "我是 O-Mall AI 健康顾问。你可以问我商品怎么选、护肝场景怎么搭配、结算前买哪款更合适。",
+      : "我是一肽当先 AI 健康顾问。你可以问我商品怎么选、护肝场景怎么搭配、结算前买哪款更合适。",
   };
 }
 

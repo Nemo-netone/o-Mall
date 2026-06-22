@@ -19,8 +19,11 @@ def print_current() -> None:
     print("参考项目: shopTwo-main（只读参考）")
     print("部署目标: CloudBase 静态托管优先；腾讯云 Linux x64 后置")
     print()
-    print("当前任务: pr1-omall-rewrite")
-    print("任务说明: .trellis/tasks/pr1-omall-rewrite/prd.md")
+    print("当前基线任务: pr1-omall-rewrite（静态商城 MVP 已完成并发布）")
+    print("数据增强任务: pr4-supabase（S1-S4 已完成，S5 后置）")
+    print("任务说明:")
+    print("- .trellis/tasks/pr1-omall-rewrite/prd.md")
+    print("- .trellis/tasks/pr4-supabase/prd.md")
 
 
 def print_phase(step: str | None) -> None:
@@ -44,6 +47,7 @@ def print_packages() -> None:
     print("- o-mall-v2 根 workspace: package.json, pnpm-workspace.yaml")
     print("- o-mall-v2/artifacts/api-server: Express API")
     print("- o-mall-v2/artifacts/web: Vite React 前端")
+    print("- o-mall-v2/functions/omall-ai-chat: CloudBase HTTP 云函数 AI 代理")
     print("- o-mall-v2/lib/db: Drizzle/PostgreSQL 数据层")
     print("- o-mall-v2/lib/api-spec: OpenAPI 合同")
     print()

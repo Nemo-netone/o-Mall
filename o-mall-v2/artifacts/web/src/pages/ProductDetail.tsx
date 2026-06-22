@@ -7,8 +7,11 @@ import { useShopUi } from "../state/shop-ui";
 import { Stars } from "../components/Stars";
 import { ProductCard } from "../components/ProductCard";
 import { SectionHeader } from "../components/SectionHeader";
+import { AppIcon, type AppIconName } from "../components/AppIcon";
 
 type Tab = "usage" | "formula" | "reviews";
+
+const DETAIL_FEATURE_ICONS: AppIconName[] = ["flask", "droplet", "shield"];
 
 export function ProductDetail() {
   const { id } = useParams();
@@ -46,7 +49,8 @@ export function ProductDetail() {
       </Link>
       <div className="detail-actions-top">
         <button className={favorite ? "soft-action active" : "soft-action"} onClick={() => toggleFavorite(product)}>
-          {favorite ? "★ 已收藏" : "☆ 收藏"}
+          <AppIcon name={favorite ? "heart-filled" : "heart"} size={16} />
+          {favorite ? "已收藏" : "收藏"}
         </button>
         <button
           className="soft-action"
@@ -70,10 +74,10 @@ export function ProductDetail() {
             <h1 className="detail-name">{product.name}</h1>
             <p className="detail-summary">{product.summary}</p>
             <div className="feature-row">
-              {product.features.map((f) => (
+              {product.features.map((f, index) => (
                 <div key={f.title} className="feature-cell">
                   <span className="feature-ico" aria-hidden="true">
-                    {f.icon}
+                    <AppIcon name={DETAIL_FEATURE_ICONS[index] ?? "sparkle"} size={19} />
                   </span>
                   <b>{f.title}</b>
                   <span>{f.desc}</span>
@@ -290,7 +294,8 @@ export function ProductDetail() {
       {/* 吸底操作栏 */}
       <div className="detail-bar">
         <Link href="/cart" className="detail-bar-ico" aria-label="购物车">
-          🛒<small>购物车</small>
+          <AppIcon name="cart" size={20} />
+          <small>购物车</small>
         </Link>
         {isInquiry ? (
           <button

@@ -2,6 +2,9 @@
 supabase/.temp/
 supabase/.branches/
 
+# 参考项目：只读借鉴，不纳入当前重写项目提交
+shopTwo-main/
+
 # Playwright / 根目录截图临时产物
 .playwright-mcp/
 /*.png

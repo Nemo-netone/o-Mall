@@ -11,7 +11,7 @@
 |--------|------|------|
 | S0 规划 + 本地骨架 | ✅ | Drizzle schema、`sql/001_init.sql`、`.env.example`、本 PRD/Plan；Supabase 已登录、Management API 已验证可执行 SQL |
 | S1 建表 + RLS（线上） | ✅ | 已应用 `001_init.sql`：4 表 + RLS 公开只读（用户明确授权） |
-| S2 seed 数据 | ✅ | 已写入 6 分类 / 6 商品 / 12 评价 / 6 内容页 |
+| S2 seed 数据 | ✅ | 已写入 6 分类 / 当前在售商品 / 评价 / 6 内容页；seed 会删除下架商品 p4/p5/p6 |
 | S3 前端接入 supabase-js + 本地兜底 | ✅ | `state/catalog` Context 本地兜底 + 运行时拉 Supabase；首页/列表/分类/详情读库；实测 REST 200、0 报错 |
 | S4 构建 + CloudBase 发布 | ✅ | 注入 `VITE_SUPABASE_*`，build + deploy 已上线 |
 | S5（后置）图片迁 Storage / 内容页读库 / 账号订单 | ⬜ | 可选增强（图片现仍随站点打包，路径存库） |
@@ -28,23 +28,23 @@
 ## 2. 里程碑步骤
 
 ### S1 建表 + RLS（线上，需明确同意）
-- [ ] 应用 `lib/db/sql/001_init.sql`：建 4 表 + 开 RLS + 公开只读策略。
-- [ ] 验收：4 表存在；RLS 已开。
+- [x] 应用 `lib/db/sql/001_init.sql`：建 4 表 + 开 RLS + 公开只读策略。
+- [x] 验收：4 表存在；RLS 已开。
 
 ### S2 seed 数据
-- [ ] 写一次性 seed 脚本：读 `web/src/data/{catalog,content}.ts`，转 SQL（jsonb 字段 JSON 化、转义），经 Management API 批量写入。
-- [ ] 写入：6 分类、6 商品（含 features/成分表/参数等 jsonb）、全部评价、6 内容页（company/tech/charity/functions/knowledge/assessment）。
-- [ ] 验收：`select count(*)` 各表数量正确；anon key 能查到商品。
+- [x] 写一次性 seed 脚本：读 `web/src/data/{catalog,content}.ts`，转 SQL（jsonb 字段 JSON 化、转义），经 Management API 批量写入。
+- [x] 写入：6 分类、当前在售商品（含 features/成分表/参数等 jsonb）、全部评价、6 内容页（company/tech/charity/functions/knowledge/assessment），并删除下架商品 `p4/p5/p6`。
+- [x] 验收：`select count(*)` 各表数量正确；anon key 能查到商品。
 
 ### S3 前端接入
-- [ ] web 加 `@supabase/supabase-js`；新增 `src/lib/supabase.ts`（读 `import.meta.env.VITE_SUPABASE_*`）。
-- [ ] 新增 `src/data/remote.ts`：从 Supabase 拉商品/分类/评价；**失败/未配置则回退** `catalog.ts` 本地数据。
-- [ ] 商品列表/详情/分类/首页改用异步数据源 + 加载/空/错状态（兜底后基本不触发错态）。
-- [ ] 验收：typecheck + build 通过；本地 preview 看商品来自库；删/断网时回退本地不白屏。
+- [x] web 加 `@supabase/supabase-js`；新增 `src/lib/supabase.ts`（读 `import.meta.env.VITE_SUPABASE_*`）。
+- [x] 新增 `src/data/remote.ts`：从 Supabase 拉商品/分类/评价；**失败/未配置则回退** `catalog.ts` 本地数据。
+- [x] 商品列表/详情/分类/首页改用异步数据源 + 加载/空/错状态（兜底后基本不触发错态）。
+- [x] 验收：typecheck + build 通过；本地 preview 看商品来自库；删/断网时回退本地不白屏。
 
 ### S4 构建 + 发布
-- [ ] `.env` 写入 `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`（不提交）。
-- [ ] build + `cloudbase hosting deploy`；线上抽查商品数据来自 Supabase。
+- [x] `.env` 写入 `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`（不提交）。
+- [x] build + `cloudbase hosting deploy`；线上抽查商品数据来自 Supabase。
 
 ## 3. 风险与对策
 

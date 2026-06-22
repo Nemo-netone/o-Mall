@@ -21,12 +21,17 @@
 
 ## 当前状态
 
+本 PRD 的静态商城 MVP 范围已完成并发布到 CloudBase 体验版。
+
+当前对照代码状态（2026-06-22）：
+
 - 主 workspace 在 `o-mall-v2`。
-- API 服务已有 `GET /health`，但本阶段 CloudBase 静态发布不依赖 API。
-- Web 前端原来只有首页、商品、关于三个占位路由，需要重构。
-- DB 包已经接入 Drizzle/PostgreSQL，但暂不作为本阶段发布前置条件。
-- OpenAPI 目前只包含健康检查接口，后续接真实商品/订单 API 时再扩展。
-- CloudBase CLI 已安装，发布使用 `cloudbase hosting deploy artifacts/web/dist`。
+- Web 前端已经是完整商城页面，使用 Wouter hash 路由，CloudBase 静态托管刷新子路径不依赖 rewrite。
+- 前端已有本地 catalog 兜底，并在 pr4-supabase 中接入 Supabase 商品/分类/评价运行时读取。
+- API 服务已有 `GET /health`、`GET /api/health`、`POST /api/ai/chat`，但商品浏览和购物车模拟仍不依赖商品/订单 API。
+- DB 包已经接入 Drizzle/PostgreSQL，并已定义 `categories/products/reviews/content_pages`；真实订单、购物车、支付表仍未实现。
+- OpenAPI 已包含健康检查和 AI 聊天代理；后续接真实商品/订单 API 时继续扩展。
+- CloudBase CLI 发布使用 `cloudbase hosting deploy artifacts/web/dist`，实际体验版环境为 `meta-d5gh4ds014005aff1`。
 
 ## MVP 范围
 
@@ -65,4 +70,4 @@
 - Web 至少通过：
   - `pnpm --filter @o-mall/web run typecheck`
   - `pnpm --filter @o-mall/web run build`
-- 未真实发布前，文档只能写“可发布/发布命令”，不能写“已经发布完成”。
+- 已真实发布的静态体验版可以写“已发布”；未完成的商品/购物车/订单 API、真实支付、运营后台不能写成已上线能力。

@@ -37,6 +37,7 @@
 body {
   min-width: 320px;
   background: var(--c-bg);
+  font-size: 18px; /* 基础字体大小从默认 16px 增加到 18px (112.5%) */
 }
 
 a {
@@ -2545,15 +2546,18 @@ body {
   font-size: 1.9rem;
   font-weight: 900;
   letter-spacing: 1px;
+  color: #fff !important;
 }
 .gold-banner h3 {
   font-size: 1.35rem;
   font-weight: 800;
+  color: #fff !important;
 }
 .gold-banner p {
   font-size: 0.82rem;
   opacity: 0.95;
   margin-top: 0.3rem;
+  color: #fff !important;
 }
 .gold-banner small {
   display: block;
@@ -3402,7 +3406,6 @@ button {
 .content-header,
 .cart-banner,
 .profile-hero,
-.gold-banner,
 .science,
 .card,
 .cblock,
@@ -4255,4 +4258,630 @@ button {
     grid-column: 2;
     justify-content: flex-end;
   }
+}
+
+/* ---------- pr5 frontend readability and icon polish ---------- */
+.app-icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+.topbar {
+  color: #fff;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), transparent 36%),
+    linear-gradient(135deg, rgba(9, 43, 33, 0.92), rgba(26, 78, 61, 0.88));
+  border-color: rgba(255, 255, 255, 0.34);
+  box-shadow:
+    0 18px 46px rgba(7, 31, 24, 0.23),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.topbar-brand {
+  color: #fff;
+}
+
+.brand-lockup .brand-name {
+  color: #fff;
+  opacity: 1;
+  font-weight: 850;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.18);
+}
+
+.brand-lockup .brand-sub {
+  color: rgba(236, 249, 242, 0.92);
+  opacity: 1;
+}
+
+.topbar-search {
+  height: 42px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.topbar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.76);
+  font-weight: 650;
+}
+
+.topbar-cart {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.hero {
+  min-height: 352px;
+  border-radius: 28px;
+  box-shadow: 0 26px 58px rgba(31, 65, 49, 0.18);
+}
+
+.hero::after {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.16), transparent 36%),
+    linear-gradient(to bottom, rgba(8, 34, 27, 0.12), rgba(7, 30, 23, 0.36));
+}
+
+.hero-mask {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1.6rem;
+  background: linear-gradient(to top, rgba(5, 26, 20, 0.9), rgba(8, 34, 27, 0.42) 58%, rgba(8, 34, 27, 0.08));
+}
+
+.hero-chip {
+  width: fit-content;
+  max-width: 100%;
+  color: #fff;
+  background: rgba(190, 147, 53, 0.94);
+  border: 1px solid rgba(255, 237, 180, 0.44);
+  font-weight: 800;
+  text-shadow: 0 1px 10px rgba(75, 50, 8, 0.22);
+}
+
+.hero-title {
+  color: #fff;
+  font-size: 3.55rem;
+  letter-spacing: 0.02em;
+  text-shadow: 0 6px 30px rgba(0, 0, 0, 0.32);
+}
+
+.hero-sub {
+  color: rgba(255, 255, 255, 0.94);
+  opacity: 1;
+  font-weight: 700;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+}
+
+.hero-rule::after {
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.btn-gold {
+  color: #2f2209;
+  background: linear-gradient(135deg, #f1d587, #c4963a);
+  box-shadow: 0 14px 30px rgba(133, 96, 27, 0.2);
+}
+
+.hero-ai-btn {
+  color: #fffdf4;
+  border-color: rgba(255, 255, 255, 0.72);
+}
+
+.statbar {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 22px 44px rgba(25, 66, 49, 0.14);
+}
+
+.statbar-item + .statbar-item::before {
+  background: rgba(26, 78, 61, 0.12);
+}
+
+.statbar-val {
+  color: #ab781e;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.statbar-label {
+  color: #445a4f;
+  opacity: 1;
+  font-weight: 750;
+}
+
+.feature-grid {
+  gap: 0.85rem;
+}
+
+.feature-card {
+  min-height: 136px;
+  border-radius: 22px;
+  background-position: center;
+  box-shadow: 0 18px 38px rgba(25, 65, 48, 0.14);
+  isolation: isolate;
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.12), transparent 34%),
+    linear-gradient(to top, rgba(6, 30, 23, 0.88), rgba(6, 30, 23, 0.34) 62%, rgba(6, 30, 23, 0.08));
+}
+
+.feature-mask {
+  position: relative;
+  z-index: 1;
+  min-height: 136px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: transparent;
+  color: #fff;
+}
+
+.feature-mask h3 {
+  color: #fff;
+  font-size: 1.04rem;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.32);
+}
+
+.feature-mask p {
+  color: #ffe9a8;
+  opacity: 1;
+  font-weight: 650;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.24);
+}
+
+.feature-cta {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.25rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(10px);
+}
+
+.quicknav {
+  background: rgba(255, 255, 255, 0.74);
+  border-color: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 16px 36px rgba(31, 83, 61, 0.1);
+}
+
+.quicknav-item {
+  min-height: 88px;
+  justify-content: center;
+  border-radius: 18px;
+  color: var(--c-primary-dark);
+}
+
+.quicknav-ico,
+.trust-ico,
+.feature-ico,
+.oicon-circle,
+.vip-item-ico,
+.dose-ico {
+  color: var(--c-primary);
+}
+
+.quicknav-ico {
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 10px 20px rgba(27, 92, 74, 0.08);
+}
+
+.quicknav-label {
+  color: #18342a;
+  font-weight: 800;
+}
+
+.trust-row {
+  background: rgba(255, 255, 255, 0.74);
+  border-color: rgba(255, 255, 255, 0.82);
+}
+
+.trust-ico {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 0.35rem;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(27, 92, 74, 0.09);
+}
+
+.trust-item strong {
+  color: #173326;
+}
+
+.trust-item span:not(.trust-ico) {
+  color: #5f6e65;
+  opacity: 1;
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(255, 255, 255, 0.88);
+}
+
+.product-name {
+  color: #162b22;
+  font-weight: 800;
+}
+
+.product-summary {
+  color: #5e6c64;
+}
+
+.favorite-dot {
+  display: grid;
+  place-items: center;
+  color: #8b681a;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.favorite-dot.active {
+  color: #fff7df;
+  background: linear-gradient(135deg, #d0a249, #946916);
+}
+
+.btn-add {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(135deg, #1b5c4a, #0d3528);
+}
+
+.bottomnav {
+  height: 68px;
+  padding: 0.34rem 0.45rem;
+  background: rgba(255, 255, 255, 0.86);
+  border-color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 -18px 44px rgba(36, 78, 60, 0.14);
+}
+
+.navitem {
+  min-width: 0;
+  color: #6a776f;
+  font-weight: 650;
+}
+
+.navitem.active {
+  color: #1b5c4a;
+}
+
+.navicon {
+  width: 30px;
+  height: 30px;
+  color: #476157;
+  background: rgba(27, 92, 74, 0.08);
+  border: 1px solid rgba(27, 92, 74, 0.08);
+}
+
+.navitem.active .navicon {
+  color: #fff;
+  background: linear-gradient(135deg, #1b5c4a, #0d3528);
+  box-shadow: 0 10px 22px rgba(27, 92, 74, 0.24);
+}
+
+.navlabel,
+.ai-navlabel {
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.ai-navitem {
+  transform: translateY(-0.72rem);
+}
+
+.ai-nav-orb {
+  width: 62px;
+  height: 62px;
+  color: #fff8df;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.5), transparent 36%),
+    linear-gradient(135deg, #d6ac4d 0%, #1b5c4a 76%);
+  box-shadow:
+    0 18px 34px rgba(78, 61, 20, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.64);
+}
+
+.soft-action,
+.detail-bar-ico,
+.cycle-row,
+.products-row,
+.checkout-card-head,
+.seg-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.soft-action {
+  min-height: 38px;
+}
+
+.feature-ico,
+.oicon-circle,
+.vip-item-ico {
+  color: var(--theme, var(--c-primary));
+}
+
+.pay-ico {
+  color: #fff;
+}
+
+.success-icon {
+  font-size: 0;
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: 0.85rem 0.7rem calc(var(--nav-h) + 2.15rem);
+  }
+
+  .topbar {
+    top: 0.45rem;
+    width: calc(100% - 0.9rem);
+    border-radius: 24px;
+    padding: 0.62rem 0.7rem 0.68rem;
+  }
+
+  .brand-lockup .brand-name {
+    max-width: 15rem;
+    font-size: 1.02rem;
+  }
+
+  .brand-lockup .brand-sub {
+    max-width: 14rem;
+    font-size: 0.7rem;
+  }
+
+  .topbar-search {
+    height: 44px;
+  }
+
+  .hero {
+    min-height: 342px;
+    border-radius: 26px;
+  }
+
+  .hero-mask {
+    padding: 1.7rem 1.25rem;
+  }
+
+  .hero-title {
+    font-size: 2.86rem;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-actions .btn {
+    min-height: 48px;
+    padding-inline: 1.05rem;
+  }
+
+  .statbar {
+    margin-inline: 0.6rem;
+  }
+
+  .statbar-item {
+    padding: 0.78rem 0.15rem;
+  }
+
+  .statbar-val {
+    font-size: 1.08rem;
+  }
+
+  .statbar-label {
+    font-size: 0.64rem;
+  }
+
+  .feature-card,
+  .feature-mask {
+    min-height: 128px;
+  }
+
+  .feature-mask {
+    padding: 0.9rem;
+  }
+
+  .quicknav {
+    gap: 0.7rem;
+    padding: 0.85rem 0.65rem;
+  }
+
+  .quicknav-item {
+    min-height: 82px;
+  }
+
+  .quicknav-ico {
+    width: 50px;
+    height: 50px;
+    border-radius: 17px;
+  }
+
+  .bottomnav {
+    width: calc(100% - 0.85rem);
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-title {
+    font-size: 2.56rem;
+  }
+
+  .brand-lockup .brand-name {
+    max-width: 12rem;
+  }
+
+  .feature-grid {
+    gap: 0.65rem;
+  }
+}
+
+/* ---------- pr5 contrast pass for glass banners ---------- */
+.content-header {
+  color: #163329;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(232, 242, 236, 0.84)),
+    radial-gradient(circle at 12% 0%, rgba(216, 184, 113, 0.2), transparent 34%);
+}
+
+.content-header h1 {
+  color: #102e23;
+  text-shadow: none;
+}
+
+.content-header p {
+  color: #53695f;
+  opacity: 1;
+  font-weight: 650;
+}
+
+.content-header > .chip {
+  color: #7a5b15;
+  background: rgba(255, 244, 211, 0.9);
+  border: 1px solid rgba(193, 151, 55, 0.18);
+}
+
+.profile-hero {
+  color: #fff;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.12), transparent 34%),
+    linear-gradient(135deg, rgba(14, 55, 41, 0.96), rgba(27, 92, 74, 0.88));
+  border-color: rgba(255, 255, 255, 0.36);
+  box-shadow: 0 20px 46px rgba(16, 56, 42, 0.18);
+}
+
+.profile-avatar {
+  color: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.44);
+}
+
+.profile-name {
+  color: #fff;
+  text-shadow: 0 5px 18px rgba(0, 0, 0, 0.2);
+}
+
+.profile-sign {
+  color: rgba(239, 251, 245, 0.9);
+  opacity: 1;
+}
+
+.profile-stat {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.profile-stat b {
+  color: #f2cd78;
+}
+
+.profile-stat span {
+  color: rgba(239, 251, 245, 0.86);
+  opacity: 1;
+  font-weight: 650;
+}
+
+.vip-card {
+  color: #fff;
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.12), transparent 32%),
+    linear-gradient(135deg, #123a2b 0%, #1d5c45 54%, #0f3325 100%);
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 20px 46px rgba(14, 55, 41, 0.16);
+}
+
+.vip-card-head b {
+  color: #fff;
+}
+
+.vip-card .vip-pill {
+  color: #2e2108;
+  background: linear-gradient(135deg, #f0d58b, #c99a3a);
+}
+
+.vip-item {
+  min-height: 92px;
+  padding: 0.72rem 0.4rem;
+  color: #fff;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.vip-item-ico {
+  color: #f3d487;
+  background: rgba(255, 246, 219, 0.14);
+}
+
+.vip-item b {
+  color: #fff;
+}
+
+.vip-item span {
+  color: rgba(239, 251, 245, 0.82);
+  opacity: 1;
+}
+
+.science {
+  color: #fff;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.13), transparent 34%),
+    linear-gradient(112deg, rgba(9, 37, 29, 0.96), rgba(23, 78, 59, 0.9) 58%, rgba(9, 37, 29, 0.88)),
+    url(/images/hero_banner.png);
+  background-size: cover;
+  background-position: center;
+  border-color: rgba(255, 255, 255, 0.34);
+  box-shadow: 0 22px 48px rgba(14, 55, 41, 0.18);
+}
+
+.science-chip {
+  width: fit-content;
+  padding: 0.18rem 0.55rem;
+  color: #ffe4a0;
+  background: rgba(255, 232, 168, 0.12);
+  border: 1px solid rgba(255, 232, 168, 0.24);
+  border-radius: 999px;
+}
+
+.science-title {
+  color: #fff;
+  text-shadow: 0 5px 18px rgba(0, 0, 0, 0.26);
+}
+
+.science-sub {
+  color: rgba(239, 251, 245, 0.9);
+  opacity: 1;
+}
+
+.science-stat {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.science-stat b {
+  color: #f4cf80;
+}
+
+.science-stat span {
+  color: rgba(239, 251, 245, 0.84);
+  opacity: 1;
 }

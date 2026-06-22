@@ -37,5 +37,6 @@ pnpm --filter @o-mall/web run build
 
 ```typescript
 // 示例
-fetch('/api/health')  // -> http://localhost:3000/api/health
+fetch('/api/health')     // -> http://localhost:3000/api/health
+fetch('/api/ai/chat')    // -> http://localhost:3000/api/ai/chat
 ```

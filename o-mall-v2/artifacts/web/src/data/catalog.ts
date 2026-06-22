@@ -20,7 +20,7 @@ export const CATEGORIES: Category[] = [
   { id: "gift", title: "礼盒专区", subtitle: "甄选礼盒·健康心意", icon: "🎁" },
 ];
 
-export const DISCONTINUED_PRODUCT_IDS = new Set(["p4", "p5"]);
+export const DISCONTINUED_PRODUCT_IDS = new Set(["p4", "p5", "p6"]);
 
 export const PRODUCTS: Product[] = [
   {
@@ -122,54 +122,6 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    id: "p6",
-    name: "肽配膳道® 益生菌固体饮料礼盒",
-    badge: "礼盒",
-    summary: "改善肠道微生态·助力营养吸收",
-    spec: "礼盒装 2g/袋 × 30袋",
-    tags: ["益生菌", "益生元", "肠道养护"],
-    price: 138,
-    originalPrice: 168,
-    image: "/images/gift_box.png",
-    categoryId: "gift",
-    theme: "#c0392b",
-    sales: "640+",
-    repurchase: "59%",
-    features: [
-      { icon: "🦠", title: "复合益生菌", desc: "双歧+乳酸菌" },
-      { icon: "🌾", title: "益生元", desc: "助菌定植" },
-      { icon: "🎁", title: "礼盒装", desc: "送礼有面" },
-    ],
-    suitable: ["肠胃敏感人群", "营养吸收欠佳人群", "送长辈礼品场景"],
-    steps: [
-      "取 1 袋，用不超过 40℃ 温水或常温水冲调。",
-      "避免高温破坏活性菌。",
-      "建议早晨空腹饮用，每日 1 袋。",
-    ],
-    certs: ["SC食品生产许可", "进口菌株溯源", "第三方检测报告"],
-    ingredientTable: [
-      { name: "复合益生菌", amount: "100亿CFU", effect: "双歧+乳酸菌" },
-      { name: "低聚果糖", amount: "适量", effect: "益生元" },
-      { name: "抗性糊精", amount: "适量", effect: "膳食纤维" },
-      { name: "小麦低聚肽", amount: "300mg", effect: "营养协同" },
-    ],
-    params: [
-      { label: "活菌数", value: "100亿CFU/袋", highlight: true },
-      { label: "菌株", value: "进口复合", highlight: true },
-      { label: "剂型", value: "固体饮料" },
-      { label: "规格", value: "2g/袋 × 30袋" },
-      { label: "保质期", value: "18个月" },
-    ],
-    usage:
-      "每日 1 袋，用不超过 40℃ 的温水或常温水冲调，避免高温破坏活性菌；建议早晨空腹饮用。",
-    ingredients:
-      "进口复合益生菌（含双歧杆菌、乳酸菌）、低聚果糖、抗性糊精、小麦低聚肽。",
-    reviews: [
-      { user: "钱**", rating: 5, text: "送长辈的礼盒，很有面子，包装精美。", date: "2026-06-05" },
-      { user: "卫**", rating: 5, text: "肠胃舒服了不少，温水冲注意不能太烫。", date: "2026-05-15", tag: "回购用户" },
-    ],
-  },
-  {
     id: "p1",
     name: "小麦低聚肽原料",
     badge: "企业专供",
@@ -216,9 +168,7 @@ export const PRODUCTS: Product[] = [
 ];
 
 export const FEATURE_CARDS: FeatureCard[] = [
-  { id: "fc1", title: "低聚肽专区", subtitle: "高F值肽·液态直吸", cta: "进入专区", image: "/images/product_oral.png", href: "/products?cat=liver" },
   { id: "fc2", title: "护肝专区", subtitle: "多维守护·肝净身轻", cta: "进入专区", image: "/images/product_granule.png", href: "/products?cat=liver" },
-  { id: "fc3", title: "益生菌礼盒", subtitle: "肠道养护·营养吸收", cta: "进入专区", image: "/images/gift_box.png", href: "/products?cat=gift" },
   { id: "fc4", title: "会员权益", subtitle: "专享礼遇·健康相伴", cta: "立即查看", image: "/images/vip_card.png", href: "/profile" },
 ];
 
@@ -232,7 +182,7 @@ export const TRUST_BADGES: TrustBadge[] = [
 export const HERO = {
   image: "/images/hero_banner.png",
   chip: "高F值低聚肽 · 科学护肝",
-  title: "国泰民安",
+  title: "一肽当先",
   subtitle: "肝安人安 · 肽养身心",
   cta: "探索健康之道",
   href: "/products",
@@ -240,9 +190,9 @@ export const HERO = {
 
 /** 品牌标识 */
 export const BRAND = {
-  name: "国肽民安·肽护中华",
+  name: "一肽当先",
   sub: "科技肽能·健康守护每一刻",
-  seal: ["国泰", "民安"] as const,
+  seal: ["一肽", "当先"] as const,
 };
 
 /** 首页 hero 下方科学数据条 */
@@ -296,12 +246,12 @@ export const PAY_METHODS: PayMethod[] = [
 
 /** 购物车搭配推荐 */
 export const RECOMMEND = {
-  id: "p6",
-  name: "肽配膳道® 益生菌",
-  detail: "改善肠道微生态·助力营养吸收",
-  price: 138,
-  originalPrice: 168,
-  image: "/images/gift_box.png",
+  id: "p3",
+  name: "珀珀肝宁® 高F值小麦低聚肽口服液",
+  detail: "开盖即饮·15分钟入血·高效修复",
+  price: 199,
+  originalPrice: 248,
+  image: "/images/product_oral.png",
 };
 
 export const COUPONS = [
@@ -312,7 +262,7 @@ export const COUPONS = [
 
 export const ORDER_PREVIEW = [
   { id: "om-260618", title: "肽润肝清® 护肝醒酒冲剂", status: "待发货", amount: "¥135" },
-  { id: "om-260602", title: "肽配膳道® 益生菌礼盒", status: "已完成", amount: "¥138" },
+  { id: "om-260602", title: "小麦低聚肽原料", status: "已完成", amount: "企业询价" },
   { id: "om-260521", title: "珀珀肝宁® 高F值小麦低聚肽口服液", status: "待评价", amount: "¥199" },
 ] as const;
 

@@ -2,7 +2,7 @@
 -- 需要用 Supabase SQL Editor、service_role、DATABASE_URL 或 Management API 执行。
 
 delete from reviews
-where product_id in ('p4', 'p5');
+where product_id in ('p4', 'p5', 'p6');
 
 delete from products
-where id in ('p4', 'p5');
+where id in ('p4', 'p5', 'p6');

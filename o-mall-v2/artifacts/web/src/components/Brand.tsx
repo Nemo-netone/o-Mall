@@ -1,6 +1,6 @@
 import { BRAND } from "../data/catalog";
 
-/** 品牌印章：竖排「国泰 / 民安」，金边米底 */
+/** 品牌印章：竖排「国肽 / 民安」，金边米底 */
 export function BrandSeal({ lg = false }: { lg?: boolean }) {
   return (
     <div className={lg ? "brand-seal lg" : "brand-seal"} aria-hidden="true">

@@ -8,9 +8,10 @@
 
 - pnpm workspace monorepo
 - `artifacts/web` Vite + React 前端（**完整商城**：首页/商品列表/分类/详情(Tab)/我的/购物车/结算 + 企业·技术·公益·护肝知识·健康评测·产品功能内容页，hash 路由）
-- 前端 AI 健康顾问入口（底部导航中间按钮）：未配置代理时基于本地商品库回答；配置 `VITE_AI_PROXY_URL` 后可走自有后端/云函数代理
+- 前端 AI 健康顾问入口（底部导航中间按钮）：未配置生产代理时基于本地商品库回答；配置 `VITE_AI_PROXY_URL` 后可走自有后端/CloudBase HTTP 云函数代理
 - `artifacts/api-server` Express API 服务
 - `GET /health` 健康检查接口
+- `POST /api/ai/chat` AI 代理接口（本地 Express / CloudBase HTTP 云函数均使用服务端环境变量保存供应商 key）
 - `lib/db` Drizzle/PostgreSQL 数据库包
 - `lib/api-spec/openapi.json` OpenAPI 合同
 - 根目录 `../.trellis/` Trellis 工作流和规范文档
@@ -23,11 +24,12 @@
 
 还没有作为线上能力完成：
 
-- 商品数据库表
 - 商品列表/详情 API
 - 购物车 API
 - 订单 API
-- 真实运营后台或种子数据流程
+- 真实运营后台
+- 内容页运行时读库（当前内容页仍使用前端本地内容数据）
+- 图片迁移到 Supabase Storage（当前仍随 `dist/images/` 打包发布）
 - 真实支付（结算为前端模拟）
 
 ## 项目结构
@@ -35,8 +37,10 @@
 ```text
 o-mall-v2/
 ├── artifacts/
-│   ├── api-server/            # Express API 服务，后续接真实接口
+│   ├── api-server/            # Express API 服务：health + AI proxy
 │   └── web/                   # Vite React 前端，当前 CloudBase 静态站主线
+├── functions/
+│   └── omall-ai-chat/         # CloudBase HTTP 云函数版 AI proxy
 ├── lib/
 │   ├── api-spec/              # OpenAPI 合同
 │   └── db/                    # Drizzle/PostgreSQL 数据层
@@ -82,6 +86,12 @@ pnpm --filter @o-mall/web run typecheck
 pnpm --filter @o-mall/web run build
 ```
 
+如果 CloudBase 已部署 `/api/ai/chat` HTTP 云函数路由，构建静态站时可临时设置：
+
+```powershell
+$env:VITE_AI_PROXY_URL="/api/ai/chat"; pnpm --filter @o-mall/web run build
+```
+
 发布到 CloudBase：
 
 ```powershell
@@ -120,7 +130,18 @@ cloudbase hosting deploy artifacts/web/dist -e <env-id>
 浏览器
   -> CloudBase 静态托管
   -> Vite 构建产物 dist
-  -> React 静态数据和前端状态
+  -> React 前端状态
+  -> 商品/分类/评价优先读 Supabase 公开只读表，失败回退本地 catalog
+```
+
+AI 顾问链路：
+
+```text
+浏览器
+  -> 本地规则兜底（默认生产路径）
+  -> 配置 VITE_AI_PROXY_URL 后请求 /api/ai/chat
+  -> Express 或 CloudBase HTTP 云函数
+  -> 模型供应商 API（密钥只在服务端环境变量）
 ```
 
 后续接 API 后的开发链路：
@@ -144,6 +165,8 @@ pnpm --filter @o-mall/api-server run build
 
 ```http
 GET /health
+GET /api/health
+POST /api/ai/chat
 ```
 
 响应：
@@ -163,7 +186,9 @@ GET /health
 DATABASE_URL=postgresql://localhost:5432/omall
 VITE_SUPABASE_URL=https://<project-ref>.supabase.co
 VITE_SUPABASE_ANON_KEY=<anon-public-key>
-# VITE_AI_PROXY_URL=https://<your-api-domain>/api/ai/omall-chat
+# VITE_AI_PROXY_URL=https://<your-api-domain>/api/ai/chat
+# CloudBase 同域 HTTP 云函数路由可用：VITE_AI_PROXY_URL=/api/ai/chat
+SILICONFLOW_API_KEY=sk-your-api-key-here
 # SUPABASE_ACCESS_TOKEN=sbp_xxx
 # SUPABASE_PROJECT_REF=<project-ref>
 PORT=3000
@@ -174,7 +199,17 @@ NODE_ENV=development
 
 远端商品下架说明：`lib/db/sql/002_remove_discontinued_products.sql` 用于删除已下架商品 `p4/p5` 及其评价；运行 `lib/db/seed.ts` 时也会先删除 `DISCONTINUED_PRODUCT_IDS` 中的商品，避免本地 seed 后远端残留。
 
-AI 相关注意：不要把模型供应商密钥写进前端 `.env`。如果要接真实大模型，请在 `artifacts/api-server`、CloudBase 云函数或自有后端里保存密钥，再把前端的 `VITE_AI_PROXY_URL` 指向这个代理。
+数据库现状：`lib/db/src/schema/index.ts` 已定义 `categories/products/reviews/content_pages`。前端当前只运行时读取商品、分类、评价；内容页仍使用本地 `src/data/content.ts`，后续如改成读库需要同时更新前端数据源和 Trellis spec。
+
+AI 相关注意：不要把模型供应商密钥写进前端 `.env`。如果要让线上访客都能调用 AI，请把 `SILICONFLOW_API_KEY` 配在 CloudBase HTTP 云函数或自有后端的环境变量中，再把前端的 `VITE_AI_PROXY_URL` 指向代理，例如 `/api/ai/chat`。
+
+CloudBase HTTP 云函数代码在：
+
+```text
+functions/omall-ai-chat
+```
+
+部署时使用 HTTP 函数，并把访问路径绑定到 `/api/ai/chat`；密钥放到云函数环境变量 `SILICONFLOW_API_KEY`，不要写入仓库配置。
 
 ## Trellis
 
@@ -191,8 +226,10 @@ Trellis 用来保存项目规范和任务记忆。
 当前任务说明与执行计划：
 
 ```text
-../.trellis/tasks/pr1-omall-rewrite/prd.md     # 要做什么 + 验收标准
-../.trellis/tasks/pr1-omall-rewrite/plan.md    # 里程碑 + 进度看板 + PR 拆分
+../.trellis/tasks/pr1-omall-rewrite/prd.md     # 静态商城 MVP 要做什么 + 验收标准
+../.trellis/tasks/pr1-omall-rewrite/plan.md    # 静态商城 MVP 里程碑 + 进度看板
+../.trellis/tasks/pr4-supabase/prd.md          # Supabase 数据增强目标 + 验收标准
+../.trellis/tasks/pr4-supabase/plan.md         # Supabase 进度 + 后置项
 ```
 
 规范分区：
